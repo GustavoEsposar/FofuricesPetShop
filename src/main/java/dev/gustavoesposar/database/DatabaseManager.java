@@ -17,7 +17,6 @@ public class DatabaseManager {
         if (conexao == null || conexao.isClosed()) {
             conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
         }
-        System.out.println("SUCESSO");
         return conexao;
     }
 

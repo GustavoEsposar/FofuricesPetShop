@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 import dev.gustavoesposar.database.DatabaseManager;
 
+
 /**
  * JavaFX App
  */
@@ -20,15 +21,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        try {
-            DatabaseManager.getConexao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         scene = new Scene(loadFXML("scene"));
         stage.setScene(scene);
         stage.show();
+    
+        stage.setOnCloseRequest(event -> {
+            try {
+                DatabaseManager.fecharConexao();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     static void setRoot(String fxml) throws IOException {
