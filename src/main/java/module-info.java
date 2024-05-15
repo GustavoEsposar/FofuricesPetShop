@@ -3,6 +3,6 @@ module dev.gustavoesposar {
     requires javafx.fxml;
     requires java.sql;
 
-    opens dev.gustavoesposar to javafx.fxml;
+    opens dev.gustavoesposar.controller to javafx.fxml;
     exports dev.gustavoesposar;
 }

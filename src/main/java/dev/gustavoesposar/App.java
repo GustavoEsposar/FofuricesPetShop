@@ -22,8 +22,8 @@ public class App extends Application {
     private static Stage stage;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        this.stage = stage;
+    public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
+        App.stage = stage;
     
         loadLoginScene();
         configureStage();
@@ -58,7 +58,7 @@ public class App extends Application {
         });
     }
 
-    static void setNewScene(String fxml, String title) throws IOException {
+    public static void setNewScene(String fxml, String title) throws IOException {
         scene = new Scene(loadFXML(fxml));
         stage.setScene(scene);
         stage.setTitle(title);

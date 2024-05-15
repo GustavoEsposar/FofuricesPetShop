@@ -1,10 +1,11 @@
-package dev.gustavoesposar;
+package dev.gustavoesposar.controller;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -58,7 +59,7 @@ public class LoginController {
 
     private void switchToMainWindow() {
         try {
-            App.setNewScene("sucesso", "Gerenciamento do Sistema");
+            App.setNewScene("principal", "Gerenciamento do Sistema");
         } catch (IOException e ) {
             e.printStackTrace();
         }
