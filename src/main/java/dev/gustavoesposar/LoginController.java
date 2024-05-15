@@ -24,15 +24,6 @@ public class LoginController {
     private Button btnLogin;
 
     @FXML
-    private void switchToSecondary() {
-        try {
-            App.setRoot("sucesso");
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public void handleLogin() {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
@@ -46,7 +37,7 @@ public class LoginController {
             ResultSet res = statement.executeQuery();
 
             if(res.next()) {
-                switchToSecondary();
+                switchToMainWindow();
             } else {
                 // Adicione aqui o código para exibir uma mensagem de erro ao usuário
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -57,6 +48,18 @@ public class LoginController {
             }
 
         } catch(SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de conexão");
+            alert.setHeaderText("Banco de dados não encontrado");
+            alert.setContentText("Não foi possivel conectar ao banco de dados.");
+            alert.showAndWait();
+        }
+    }
+
+    private void switchToMainWindow() {
+        try {
+            App.setNewScene("sucesso", "Gerenciamento do Sistema");
+        } catch (IOException e ) {
             e.printStackTrace();
         }
     }
