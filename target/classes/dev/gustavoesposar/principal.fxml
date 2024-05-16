@@ -11,63 +11,63 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.PrincipalController.java">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.PrincipalController">
   <tabs>
-    <Tab fx:id="tabPets" text="Pets">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-      <Tab fx:id="tabRacas" text="Raças">
+      <Tab fx:id="tabEspecies" text="Espécies">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="640.0" AnchorPane.topAnchor="0.0" />
-                  <TextField layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="440.0" promptText="Digite um nome" AnchorPane.leftAnchor="30.0">
+                  <TextField fx:id="txtAddEspecie" layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="440.0" promptText="Digite o nome" AnchorPane.leftAnchor="30.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="btnAdicionar" layoutX="493.0" layoutY="75.0" mnemonicParsing="false" text="Adicionar" AnchorPane.leftAnchor="500.0">
+                  <Button fx:id="btnAddEspecie" layoutX="493.0" layoutY="75.0" mnemonicParsing="false" onAction="#adicionarEspecie" style="-fx-background-color: ad764a;" text="Adicionar" AnchorPane.leftAnchor="500.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label layoutX="36.0" layoutY="17.0" text="Adicionar raça" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+                  <Label layoutX="36.0" layoutY="17.0" text="Adicionar espécie" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="663.0" layoutY="17.0" text="Remover raça" AnchorPane.leftAnchor="670.0" AnchorPane.topAnchor="20.0">
+                  <Label layoutX="663.0" layoutY="17.0" text="Remover espécie" AnchorPane.leftAnchor="670.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="741.0" layoutY="75.0" prefWidth="440.0" promptText="Digite o ID" AnchorPane.leftAnchor="670.0">
+                  <TextField fx:id="txtRmEspecie" layoutX="741.0" layoutY="75.0" prefWidth="440.0" promptText="Digite o ID" AnchorPane.leftAnchor="670.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button layoutX="1181.0" layoutY="75.0" mnemonicParsing="false" text="Adicionar" AnchorPane.leftAnchor="1140.0">
+                  <Button fx:id="btnRmEspecie" layoutX="1181.0" layoutY="75.0" mnemonicParsing="false" onAction="#removerEspecie" style="-fx-background-color: ad764a;" text="Remover" AnchorPane.leftAnchor="1140.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <TableView layoutX="20.0" layoutY="157.0" prefHeight="600.0" prefWidth="1240.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+                  <TableView fx:id="tblEspecies" layoutX="20.0" layoutY="157.0" prefHeight="600.0" prefWidth="1240.0" style="-fx-border-color: ad764a;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
                     <columns>
-                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" text="ID" />
-                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" sortable="false" text="Nome da raça" />
+                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" style="-fx-background-color: ad764a;" text="ID" />
+                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" sortable="false" style="-fx-background-color: ad764a;" text="Nome da espécie" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
          </content>
       </Tab>
-      <Tab fx:id="tabEspecies" text="Espécies">
+      <Tab fx:id="tabRacas" text="Raças">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
          </content>
       </Tab>
+    <Tab fx:id="tabPets" text="Pets">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
     <Tab fx:id="tabFornecedores" text="Fornecedores">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
