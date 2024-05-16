@@ -50,8 +50,8 @@
                   </Button>
                   <TableView fx:id="tblEspecies" layoutX="20.0" layoutY="157.0" prefHeight="600.0" prefWidth="1240.0" style="-fx-border-color: ad764a;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
                     <columns>
-                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" style="-fx-background-color: ad764a;" text="ID" />
-                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" sortable="false" style="-fx-background-color: ad764a;" text="Nome da espécie" />
+                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" text="ID" />
+                      <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="620.0" resizable="false" sortable="false" text="Nome da espécie" />
                     </columns>
                   </TableView>
                </children>

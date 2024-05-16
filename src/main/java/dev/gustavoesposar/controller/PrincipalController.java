@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dev.gustavoesposar.database.DatabaseManager;
+import dev.gustavoesposar.model.Especie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -45,13 +48,16 @@ public class PrincipalController {
     protected Tab tabRacas;
 
     @FXML
-    protected TableView<?> tblEspecies;
+    protected TableView<Especie> tblEspecies;
 
     @FXML
     protected TextField txtAddEspecie;
 
     @FXML
     protected TextField txtRmEspecie;
+
+    @FXML
+    private ObservableList<Especie> especiesList = FXCollections.observableArrayList();
 
     @FXML
     public void adicionarEspecie() {
@@ -63,19 +69,13 @@ public class PrincipalController {
             PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
             statement.setString(1, nomeEspecie);
             statement.setString(2, nomeEspecie);
-    
-            int rowsAffected = statement.executeUpdate();
-    
-            if (rowsAffected > 0) {
-                atualizarTabela();
-            } else {
-                janelaErroDeInsercao();
-            }
+            statement.executeUpdate();
+
+            atualizarTabela();
         } catch (SQLException e) {
             janelaErroDeConexao();
         }
-    }
-    
+    }    
 
     @FXML
     public void removerEspecie() {
@@ -83,7 +83,28 @@ public class PrincipalController {
     }
 
     private void atualizarTabela() {
+        try {
+            tblEspecies.getItems().clear();
+            String sql = "SELECT * FROM Especie";
+            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+            ResultSet res = statement.executeQuery();
 
+            while (res.next()) {
+                // Criar um objeto Especie (supondo que exista uma classe Especie com os atributos correspondentes)
+                Especie especie = new Especie();
+                especie.setId(res.getInt("idEspecie"));
+                especie.setNome(res.getString("nome"));
+                // Adicionar o objeto à tabela na interface gráfica
+                especiesList.add(especie);
+            }
+            System.out.println(especiesList);
+            
+            tblEspecies.setItems(especiesList);
+            tblEspecies.refresh();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //janelaErroDeConexao();
+        }
     }
 
     private void janelaErroDeInsercao() {
