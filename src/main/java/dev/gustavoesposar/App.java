@@ -33,7 +33,7 @@ public class App extends Application {
     }
     
     private void loadLoginScene() throws IOException {
-        scene = new Scene(loadFXML("login"));
+        scene = new Scene(loadFXML("principal"));
         stage.setScene(scene);
     }
 
