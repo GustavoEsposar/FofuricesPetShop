@@ -57,7 +57,7 @@ public class AnimaisController {
         
         try {
             // adiciona apenas se não existir registro
-            String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);\n";
+            String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
             PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
             statement.setString(1, nomeEspecie);
             statement.setString(2, nomeEspecie);
@@ -70,6 +70,7 @@ public class AnimaisController {
                 janelaErroDeInsercao();
             }
 
+            DatabaseManager.fecharConexao();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,6 +92,7 @@ public class AnimaisController {
                 especiesList.add(especie);
             }
 
+            DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +102,25 @@ public class AnimaisController {
 
     @FXML
     void removerEspecie(ActionEvent event) {
+        String idEspecie = txtRmEspecie.getText();
 
+        try {
+            String sql = "delete from especie where idEspecie = ? limit 1;";
+            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+            statement.setString(1, idEspecie);
+
+            int res = statement.executeUpdate();
+
+            if (res > 0) {
+                atualizarTabela();
+            } else {
+                janelaErroDeInsercao();
+            }
+
+            DatabaseManager.fecharConexao();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void janelaErroDeInsercao() {
