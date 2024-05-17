@@ -62,6 +62,7 @@ public class App extends Application {
         scene = new Scene(loadFXML(fxml));
         stage.setScene(scene);
         stage.setTitle(title);
+        stage.centerOnScreen();
     }
 
     public static void main(String[] args) {

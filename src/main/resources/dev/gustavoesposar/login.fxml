@@ -14,7 +14,7 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.LoginController">
    <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0">
       <children>
-            <Button fx:id="btnLogin" layoutX="175.0" layoutY="376.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" text="Entrar">
+            <Button fx:id="btnLogin" layoutX="175.0" layoutY="376.0" mnemonicParsing="false" onAction="#verificarLogin" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" text="Entrar">
                 <font>
                     <Font name="System Bold" size="20.0" />
                 </font>

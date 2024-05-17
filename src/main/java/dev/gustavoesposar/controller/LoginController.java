@@ -25,7 +25,7 @@ public class LoginController {
     private Button btnLogin;
 
     @FXML
-    public void handleLogin() {
+    public void verificarLogin() {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
 
@@ -38,7 +38,7 @@ public class LoginController {
             ResultSet res = statement.executeQuery();
 
             if(res.next()) {
-                switchToMainWindow();
+                atualizarSceneMenu();
             } else {
                 // Adicione aqui o código para exibir uma mensagem de erro ao usuário
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -47,6 +47,7 @@ public class LoginController {
                 alert.setContentText("Credenciais inválidas. Verifique seu email e senha.");
                 alert.showAndWait();
             }
+            DatabaseManager.fecharConexao();
 
         } catch(SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -57,9 +58,9 @@ public class LoginController {
         }
     }
 
-    private void switchToMainWindow() {
+    private void atualizarSceneMenu() {
         try {
-            App.setNewScene("principal", "Gerenciamento do Sistema");
+            App.setNewScene("menu", "Menu de Gerenciamento");
         } catch (IOException e ) {
             e.printStackTrace();
         }
