@@ -1,0 +1,8 @@
+.table-view .column-header, .table-view .cell {
+    -fx-font-size: 16px; /* Aumenta o tamanho da fonte */
+    -fx-alignment: CENTER; /* Centraliza o texto */
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #ad764a; /* Cor de fundo do cabeçalho da coluna */
+}

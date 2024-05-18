@@ -52,27 +52,31 @@ public class AnimaisController {
     private TextField txtRmEspecie;
 
     @FXML
-    void adicionarEspecie(ActionEvent event) {
+    private void adicionarEspecie(ActionEvent event) {
         String nomeEspecie = txtAddEspecie.getText();
+        String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
         
+        boolean sucesso = executarUpdate(sql, nomeEspecie, nomeEspecie);
+        
+        if (sucesso) {
+            atualizarTabela();
+        } else {
+            janelaErroDeInsercao();
+        }
+    }
+
+    private boolean executarUpdate(String sql, String... params) {
         try {
-            // adiciona apenas se não existir registro
-            String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
             PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            statement.setString(1, nomeEspecie);
-            statement.setString(2, nomeEspecie);
-
-            int res = statement.executeUpdate();
-
-            if (res > 0) {
-                atualizarTabela();
-            } else {
-                janelaErroDeInsercao();
+            for (int i = 0; i < params.length; i++) {
+                statement.setString(i + 1, params[i]);
             }
-
+            int res = statement.executeUpdate();
             DatabaseManager.fecharConexao();
+            return res > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
     
@@ -100,29 +104,6 @@ public class AnimaisController {
         tblEspecies.setItems(especiesList);
     }
 
-    @FXML
-    void removerEspecie(ActionEvent event) {
-        String idEspecie = txtRmEspecie.getText();
-
-        try {
-            String sql = "delete from especie where idEspecie = ? limit 1;";
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            statement.setString(1, idEspecie);
-
-            int res = statement.executeUpdate();
-
-            if (res > 0) {
-                atualizarTabela();
-            } else {
-                janelaErroDeInsercao();
-            }
-
-            DatabaseManager.fecharConexao();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void janelaErroDeInsercao() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro de inserção");
@@ -131,10 +112,28 @@ public class AnimaisController {
     }
 
     @FXML
+    private void removerEspecie(ActionEvent event) {
+        String idEspecie = txtRmEspecie.getText();
+        String sql = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
+        
+        boolean sucesso = executarUpdate(sql, idEspecie);
+        
+        if (sucesso) {
+            atualizarTabela();
+        } else {
+            janelaErroDeInsercao();
+        }
+    }
+
+    @FXML
     public void initialize() {
         // Configurando as colunas do TableView
         colIdEspecie.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNomeEspecie.setCellValueFactory(new PropertyValueFactory<>("nome"));
+
+        // Ajustar largura das colunas
+        colIdEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
+        colNomeEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
     
         atualizarTabela();
     }   

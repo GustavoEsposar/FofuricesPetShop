@@ -46,6 +46,13 @@ public class App extends Application {
         stage.setResizable(false);
         stage.setTitle("Login do Sistema");
         stage.getIcons().add(new Image("file:src/main/resources/dev/gustavoesposar/img/logo_petshop.png"));
+        stage.setOnCloseRequest(event -> {
+            try {
+                DatabaseManager.fecharConexao();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setOnCloseEventHandler() {
