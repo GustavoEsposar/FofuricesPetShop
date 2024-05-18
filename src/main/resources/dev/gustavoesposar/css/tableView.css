@@ -1,8 +1,13 @@
 .table-view .column-header, .table-view .cell {
-    -fx-font-size: 16px; /* Aumenta o tamanho da fonte */
-    -fx-alignment: CENTER; /* Centraliza o texto */
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER;
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #ad764a; /* Cor de fundo do cabeçalho da coluna */
+    -fx-background-color: #ad764a;
+}
+
+.button:hover {
+    -fx-cursor: hand; /* Muda o cursor para pointer (mão) */
+    -fx-background-color: #ad764a;
 }

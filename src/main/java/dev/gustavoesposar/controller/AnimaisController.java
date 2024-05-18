@@ -1,10 +1,12 @@
 package dev.gustavoesposar.controller;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Especie;
 import javafx.collections.FXCollections;
@@ -19,7 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class AnimaisController {
+public class AnimaisController implements RetornarInterface{
 
     @FXML
     private Button btnAddEspecie;
@@ -123,6 +125,12 @@ public class AnimaisController {
         } else {
             janelaErroDeInsercao();
         }
+    }
+
+    @Override
+    @FXML
+    public void voltarMenu() {
+        RetornarInterface.super.voltarMenu();
     }
 
     @FXML
