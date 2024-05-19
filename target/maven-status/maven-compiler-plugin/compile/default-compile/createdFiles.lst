@@ -1,4 +1,10 @@
-dev\gustavoesposar\App.class
-dev\gustavoesposar\LoginController.class
-module-info.class
+dev\gustavoesposar\controller\RacasController.class
+dev\gustavoesposar\controller\RetornarInterface.class
 dev\gustavoesposar\database\DatabaseManager.class
+dev\gustavoesposar\model\Raca.class
+dev\gustavoesposar\App.class
+dev\gustavoesposar\controller\MenuController.class
+dev\gustavoesposar\controller\EspeciesController.class
+module-info.class
+dev\gustavoesposar\model\Especie.class
+dev\gustavoesposar\controller\LoginController.class
