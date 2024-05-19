@@ -71,10 +71,11 @@ public class RacasController implements RetornarInterface {
     private boolean executarUpdate(String sql, String... params) {
         try {
             PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+
             for (int i = 0; i < params.length; i++) {
                 statement.setString(i + 1, params[i]);
             }
-            System.out.println(statement.toString());
+            
             int res = statement.executeUpdate();
             DatabaseManager.fecharConexao();
             return res > 0;
