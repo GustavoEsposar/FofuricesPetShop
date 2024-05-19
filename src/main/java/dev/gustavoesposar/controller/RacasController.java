@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dev.gustavoesposar.database.DatabaseManager;
-import dev.gustavoesposar.model.Especie;
+import dev.gustavoesposar.model.Raca;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,36 +18,36 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class EspeciesController implements RetornarInterface{
+public class RacasController implements RetornarInterface {
 
     @FXML
-    private TextField txtAddEspecie;
+    private Button btnAdd;
 
     @FXML
-    private Button btnAddEspecie;
+    private Button btnRm;
 
     @FXML
-    private TextField txtRmEspecie;
+    private TableColumn<Raca, Integer> colIdRaca;
 
     @FXML
-    private Button btnRmEspecie;
+    private TableColumn<Raca, String> colNome;
 
     @FXML
-    private TableView<Especie> tblEspecies;
+    private TableView<Raca> tblRacas;
 
     @FXML
-    private TableColumn<Especie, Integer> colIdEspecie;
+    private TextField txtAdd;
 
     @FXML
-    private TableColumn<Especie, String> colNomeEspecie;
+    private TextField txtRm;
 
     @FXML
-    private void adicionarEspecie(ActionEvent event) {
-        String nomeEspecie = txtAddEspecie.getText();
-        String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
-        
-        boolean sucesso = executarUpdate(sql, nomeEspecie, nomeEspecie);
-        
+    private void adicionarRaca(ActionEvent event) {
+        String nome = txtAdd.getText();
+        String sql = "INSERT INTO Raca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Raca WHERE nome = ?);";
+
+        boolean sucesso = executarUpdate(sql, nome, nome);
+
         if (sucesso) {
             atualizarTabela();
         } else {
@@ -69,21 +69,21 @@ public class EspeciesController implements RetornarInterface{
             return false;
         }
     }
-    
-    private void atualizarTabela() {
-        ObservableList<Especie> especiesList = FXCollections.observableArrayList();
 
-        String sql = "SELECT * FROM Especie";
+    private void atualizarTabela() {
+        ObservableList<Raca> racasList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM Raca";
         try (Connection conn = DatabaseManager.getConexao();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+                PreparedStatement statement = conn.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                int idEspecie = resultSet.getInt("idEspecie");
+                int idRaca = resultSet.getInt("idRaca");
                 String nome = resultSet.getString("nome");
 
-                Especie especie = new Especie(idEspecie, nome);
-                especiesList.add(especie);
+                Raca raca = new Raca(idRaca, nome);
+                racasList.add(raca);
             }
 
             DatabaseManager.fecharConexao();
@@ -91,7 +91,7 @@ public class EspeciesController implements RetornarInterface{
             e.printStackTrace();
         }
 
-        tblEspecies.setItems(especiesList);
+        tblRacas.setItems(racasList);
     }
 
     private void janelaErroDeInsercao() {
@@ -102,11 +102,11 @@ public class EspeciesController implements RetornarInterface{
     }
 
     @FXML
-    private void removerEspecie(ActionEvent event) {
-        String idEspecie = txtRmEspecie.getText();
-        String sql = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
+    private void removerRaca(ActionEvent event) {
+        String idRaca = txtRm.getText();
+        String sql = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
         
-        boolean sucesso = executarUpdate(sql, idEspecie);
+        boolean sucesso = executarUpdate(sql, idRaca);
         
         if (sucesso) {
             atualizarTabela();
@@ -121,17 +121,17 @@ public class EspeciesController implements RetornarInterface{
         ajustarLarguraColunas();
         atualizarTabela();
     }
-    
+
     private void configurarColunasTableView() {
-        colIdEspecie.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNomeEspecie.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colIdRaca.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
     }
-    
+
     private void ajustarLarguraColunas() {
-        colIdEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
-        colNomeEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
+        colIdRaca.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.5));
+        colNome.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.5));
     }
-    
+
     @Override
     @FXML
     public void voltarMenu() {

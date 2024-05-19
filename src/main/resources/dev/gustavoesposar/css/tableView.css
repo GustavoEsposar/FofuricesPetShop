@@ -3,11 +3,8 @@
     -fx-alignment: CENTER;
 }
 
-.table-view .column-header-background {
-    -fx-background-color: #ad764a;
-}
-
 .button:hover {
     -fx-cursor: hand; /* Muda o cursor para pointer (mão) */
     -fx-background-color: #ad764a;
+    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);
 }

@@ -9,7 +9,10 @@ import javafx.scene.control.Button;
 public class MenuController {
 
     @FXML
-    private Button btnAnimais;
+    private Button btnEspecies;
+
+    @FXML
+    private Button btnRacas;
 
     @FXML
     private Button btnEstoque;
@@ -18,7 +21,7 @@ public class MenuController {
     private Button btnFornecedores;
 
     @FXML
-    void atualizarSceneAnimais() {
+    private void atualizarSceneEspecies() {
         try {
             App.setNewScene("especies", "Gerenciamento de Espécies");
         } catch (IOException e) {
@@ -27,17 +30,26 @@ public class MenuController {
     }
 
     @FXML
-    void atualizarSceneFornecedores() {
+    private void atualizarSceneRacas() {
+        try {
+            App.setNewScene("racas", "Gerenciamento de Raças");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void atualizarSceneFornecedores() {
 
     }
 
     @FXML
-    void atualizarSceneEstoque() {
+    private void atualizarSceneEstoque() {
 
     }
 
     @FXML
-    void atualizarSceneProdutos() {
+    private void atualizarSceneProdutos() {
 
     }
 }
