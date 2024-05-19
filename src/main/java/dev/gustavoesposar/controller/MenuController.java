@@ -20,7 +20,7 @@ public class MenuController {
     @FXML
     void atualizarSceneAnimais() {
         try {
-            App.setNewScene("animais", "Gerenciamento de Animais");
+            App.setNewScene("especies", "Gerenciamento de Espécies");
         } catch (IOException e) {
             e.printStackTrace();
         }

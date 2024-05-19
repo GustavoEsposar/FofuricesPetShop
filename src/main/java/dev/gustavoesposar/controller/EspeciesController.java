@@ -1,12 +1,10 @@
 package dev.gustavoesposar.controller;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Especie;
 import javafx.collections.FXCollections;
@@ -15,28 +13,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class AnimaisController implements RetornarInterface{
+public class EspeciesController implements RetornarInterface{
+
+    @FXML
+    private TextField txtAddEspecie;
 
     @FXML
     private Button btnAddEspecie;
 
     @FXML
+    private TextField txtRmEspecie;
+
+    @FXML
     private Button btnRmEspecie;
-
-    @FXML
-    private Tab tabEspecies;
-
-    @FXML
-    private Tab tabPets;
-
-    @FXML
-    private Tab tabRacas;
 
     @FXML
     private TableView<Especie> tblEspecies;
@@ -46,12 +40,6 @@ public class AnimaisController implements RetornarInterface{
 
     @FXML
     private TableColumn<Especie, String> colNomeEspecie;
-
-    @FXML
-    private TextField txtAddEspecie;
-
-    @FXML
-    private TextField txtRmEspecie;
 
     @FXML
     private void adicionarEspecie(ActionEvent event) {
