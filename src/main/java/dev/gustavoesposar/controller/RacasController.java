@@ -33,9 +33,6 @@ public class RacasController implements RetornarInterface {
     private Button btnRm;
 
     @FXML
-    private Button btnUpdate;
-
-    @FXML
     private TableColumn<Especie, String> colEspecie;
 
     @FXML
@@ -49,9 +46,6 @@ public class RacasController implements RetornarInterface {
 
     @FXML
     private TextField txtAdd;
-
-    @FXML
-    private TextField txtUpdate;
 
     @FXML
     private TextField txtRm;
@@ -72,8 +66,7 @@ public class RacasController implements RetornarInterface {
         } else {
             janelaErroDeInsercao();
         }
-    }    
-    
+    }
 
     private boolean executarUpdate(String sql, String... params) {
         try {
@@ -96,7 +89,7 @@ public class RacasController implements RetornarInterface {
     
         String sql = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
                      "FROM Raca " +
-                     "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie"; // Correção da coluna de junção
+                     "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie";
     
         try (Connection conn = DatabaseManager.getConexao();
              PreparedStatement statement = conn.prepareStatement(sql);
@@ -140,12 +133,6 @@ public class RacasController implements RetornarInterface {
         }
     }
 
-    @FXML
-    private void atualizarRaca(ActionEvent event) {
-        String idRaca;
-    }
-
-    // Adicione este método na classe RacasController
     private void atualizarEspecies() {
         ObservableList<String> especiesList = FXCollections.observableArrayList();
 

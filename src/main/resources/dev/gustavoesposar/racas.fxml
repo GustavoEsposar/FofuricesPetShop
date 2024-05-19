@@ -10,20 +10,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.RacasController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.RacasController">
    <children>
-      <Button graphicTextGap="1.0" layoutX="1208.0" layoutY="18.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 100; -fx-padding: 0 12; -fx-background-color: ad764a;" text="↩" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <Button graphicTextGap="1.0" layoutX="1208.0" layoutY="18.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 100; -fx-padding: 0 12; -fx-background-color: ad764a;" stylesheets="@css/style.css" text="↩" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="426.6" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="txtAdd" layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="200.0" promptText="Digite o nome" AnchorPane.leftAnchor="30.0">
+      <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="640.0" AnchorPane.topAnchor="0.0" />
+      <TextField fx:id="txtAdd" layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="440.0" promptText="Digite o nome" AnchorPane.leftAnchor="30.0">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <Button fx:id="btnAdd" layoutX="493.0" layoutY="75.0" mnemonicParsing="false" onAction="#adicionarRaca" style="-fx-background-color: ad764a;" text="Adicionar" AnchorPane.leftAnchor="300.0">
+      <Button fx:id="btnAdd" layoutX="493.0" layoutY="75.0" mnemonicParsing="false" onAction="#adicionarRaca" style="-fx-background-color: ad764a;" stylesheets="@css/style.css" text="Adicionar" AnchorPane.leftAnchor="500.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -33,17 +33,17 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="663.0" layoutY="17.0" text="Remover raça" AnchorPane.leftAnchor="883.2" AnchorPane.topAnchor="20.0">
+      <Label layoutX="663.0" layoutY="17.0" text="Remover raça" AnchorPane.leftAnchor="670.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="txtRm" layoutX="741.0" layoutY="75.0" prefWidth="200.0" promptText="Digite o ID" AnchorPane.leftAnchor="883.2">
+      <TextField fx:id="txtRm" layoutX="741.0" layoutY="75.0" prefWidth="440.0" promptText="Digite o ID" AnchorPane.leftAnchor="670.0">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <Button fx:id="btnRm" layoutX="1181.0" layoutY="75.0" mnemonicParsing="false" onAction="#removerRaca" style="-fx-background-color: ad764a;" text="Remover" AnchorPane.leftAnchor="1140.0">
+      <Button fx:id="btnRm" layoutX="1181.0" layoutY="75.0" mnemonicParsing="false" onAction="#removerRaca" style="-fx-background-color: ad764a;" stylesheets="@css/style.css" text="Remover" AnchorPane.leftAnchor="1140.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -55,22 +55,6 @@
             <TableColumn fx:id="colNome" text="Raça" />
          </columns>
       </TableView>
-      <Separator layoutX="631.0" layoutY="10.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.rightAnchor="426.6" AnchorPane.topAnchor="0.0" />
-      <Label layoutX="442.0" layoutY="20.0" text="Atualizar raça" AnchorPane.leftAnchor="456.6">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnUpdate" layoutX="738.0" layoutY="75.0" mnemonicParsing="false" style="-fx-background-color: ad764a;" text="Atualizar">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <TextField fx:id="txtUpdate" layoutX="40.0" layoutY="85.0" prefHeight="35.0" prefWidth="200.0" promptText="Digite o nome" AnchorPane.leftAnchor="456.6" AnchorPane.topAnchor="75.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
       <ChoiceBox fx:id="boxEspecies" layoutX="30.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0" />
    </children>
 </AnchorPane>
