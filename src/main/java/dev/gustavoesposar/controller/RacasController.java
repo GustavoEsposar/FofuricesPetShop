@@ -64,8 +64,10 @@ public class RacasController implements RetornarInterface {
         if (sucesso) {
             atualizarTabela();
         } else {
-            janelaErroDeInsercao();
+            janelaErroSql();
         }
+
+        restaurarValoresVariaveis();
     }
 
     private boolean executarUpdate(String sql, String... params) {
@@ -113,11 +115,16 @@ public class RacasController implements RetornarInterface {
         tblRacas.setItems(racasList);
     }    
 
-    private void janelaErroDeInsercao() {
+    private void janelaErroSql() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro de inserção");
-        alert.setHeaderText("O nome fornecido já existe no banco de dados");
+        alert.setTitle("Inconsistência nos dados");
+        alert.setHeaderText("Dados de entrada não adequados.");
         alert.showAndWait();
+    }
+
+    private void restaurarValoresVariaveis() {
+        boxEspecies.setValue("Selecionar");
+        txtAdd.setText(null);
     }
 
     @FXML
@@ -130,7 +137,7 @@ public class RacasController implements RetornarInterface {
         if (sucesso) {
             atualizarTabela();
         } else {
-            janelaErroDeInsercao();
+            janelaErroSql();
         }
     }
 
@@ -142,12 +149,14 @@ public class RacasController implements RetornarInterface {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 ResultSet resultSet = statement.executeQuery()) {
 
+            especiesList.add(0, "Selecionar");
             while (resultSet.next()) {
                 String nome = resultSet.getString("nome");
                 especiesList.add(nome);
             }
 
             Platform.runLater(() -> boxEspecies.setItems(especiesList));
+            boxEspecies.setValue("Selecionar");
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
