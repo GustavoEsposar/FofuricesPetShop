@@ -46,27 +46,12 @@ public class EspeciesController implements RetornarInterface{
         String nomeEspecie = txtAddEspecie.getText();
         String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
         
-        boolean sucesso = executarUpdate(sql, nomeEspecie, nomeEspecie);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, nomeEspecie, nomeEspecie);
         
         if (sucesso) {
             atualizarTabela();
         } else {
             janelaErroDeInsercao();
-        }
-    }
-
-    private boolean executarUpdate(String sql, String... params) {
-        try {
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 1, params[i]);
-            }
-            int res = statement.executeUpdate();
-            DatabaseManager.fecharConexao();
-            return res > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
     
@@ -106,7 +91,7 @@ public class EspeciesController implements RetornarInterface{
         String idEspecie = txtRmEspecie.getText();
         String sql = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
         
-        boolean sucesso = executarUpdate(sql, idEspecie);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, idEspecie);
         
         if (sucesso) {
             atualizarTabela();
