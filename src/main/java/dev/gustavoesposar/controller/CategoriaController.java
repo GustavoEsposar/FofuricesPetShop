@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Categoria;
-import dev.gustavoesposar.model.Especie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
