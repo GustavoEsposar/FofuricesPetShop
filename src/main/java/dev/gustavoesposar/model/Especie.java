@@ -26,12 +26,4 @@ public class Especie {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    @Override
-    public String toString() {
-        return "Especie{" +
-                "idEspecie=" + idEspecie +
-                ", nome='" + nome + '\'' +
-                '}';
-    }
 }
