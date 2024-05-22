@@ -3,6 +3,7 @@ package dev.gustavoesposar.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseManager {
@@ -12,7 +13,8 @@ public class DatabaseManager {
 
     private static Connection conexao;
 
-    private DatabaseManager() {}
+    private DatabaseManager() {
+    }
 
     public static Connection getConexao() throws SQLException {
         if (conexao == null || conexao.isClosed()) {
@@ -40,5 +42,12 @@ public class DatabaseManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static ResultSet executarConsulta(String sql) throws SQLException {
+        Connection conn = DatabaseManager.getConexao();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet res = statement.executeQuery();
+        return res;
     }
 }

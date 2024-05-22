@@ -1,7 +1,5 @@
 package dev.gustavoesposar.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -60,9 +58,7 @@ public class EspeciesController extends OpcaoDoMenu{
         ObservableList<Especie> especiesList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM Especie";
-        try (Connection conn = DatabaseManager.getConexao();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
 
             while (resultSet.next()) {
                 int idEspecie = resultSet.getInt("idEspecie");

@@ -5,6 +5,7 @@ module dev.gustavoesposar {
     requires javafx.graphics;
 
     opens dev.gustavoesposar.controller to javafx.fxml;
+    opens dev.gustavoesposar.controller.abstracts to javafx.fxml;
     opens dev.gustavoesposar.model to javafx.base;
     exports dev.gustavoesposar;
 }

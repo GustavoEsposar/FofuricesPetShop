@@ -5,7 +5,7 @@ import java.io.IOException;
 import dev.gustavoesposar.App;
 import javafx.fxml.FXML;
 
-public abstract class OpcaoDoMenu {
+public abstract class OpcaoDoMenu{
     @FXML
     protected void voltarMenu() {
         try {
