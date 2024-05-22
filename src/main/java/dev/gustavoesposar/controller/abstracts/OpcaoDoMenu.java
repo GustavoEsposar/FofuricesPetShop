@@ -1,4 +1,4 @@
-package dev.gustavoesposar.controller;
+package dev.gustavoesposar.controller.abstracts;
 
 import java.io.IOException;
 

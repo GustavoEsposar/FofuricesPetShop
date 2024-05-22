@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Especie;
 import javafx.collections.FXCollections;
