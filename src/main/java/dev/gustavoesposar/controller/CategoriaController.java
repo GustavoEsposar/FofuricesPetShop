@@ -51,27 +51,12 @@ public class CategoriaController implements RetornarInterface {
         String nome = txtAdd.getText();
         String sql = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
 
-        boolean sucesso = executarUpdate(sql, nome, nome);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, nome, nome);
 
         if (sucesso) {
             atualizarTabela();
         } else {
             janelaErroDeInsercao();
-        }
-    }
-
-    private boolean executarUpdate(String sql, String... params) {
-        try {
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 1, params[i]);
-            }
-            int res = statement.executeUpdate();
-            DatabaseManager.fecharConexao();
-            return res > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -111,7 +96,7 @@ public class CategoriaController implements RetornarInterface {
         String id = txtRm.getText();
         String sql = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
 
-        boolean sucesso = executarUpdate(sql, id);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, id);
 
         if (sucesso) {
             atualizarTabela();

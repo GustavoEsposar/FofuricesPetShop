@@ -59,7 +59,7 @@ public class RacasController implements RetornarInterface {
                      "WHERE nome = ? " +
                      "AND NOT EXISTS (SELECT 1 FROM Raca WHERE nome = ?)";
     
-        boolean sucesso = executarUpdate(sql, nome, especieSelecionada, nome);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, nome, especieSelecionada, nome);
     
         if (sucesso) {
             atualizarTabela();
@@ -68,23 +68,6 @@ public class RacasController implements RetornarInterface {
         }
 
         restaurarValoresVariaveis();
-    }
-
-    private boolean executarUpdate(String sql, String... params) {
-        try {
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 1, params[i]);
-            }
-            
-            int res = statement.executeUpdate();
-            DatabaseManager.fecharConexao();
-            return res > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     private void atualizarTabela() {
@@ -132,7 +115,7 @@ public class RacasController implements RetornarInterface {
         String idRaca = txtRm.getText();
         String sql = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
 
-        boolean sucesso = executarUpdate(sql, idRaca);
+        boolean sucesso = DatabaseManager.executarUpdate(sql, idRaca);
 
         if (sucesso) {
             atualizarTabela();
