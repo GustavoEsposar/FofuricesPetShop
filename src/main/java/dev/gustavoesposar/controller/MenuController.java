@@ -20,22 +20,22 @@ public class MenuController {
     @FXML
     private Button btnFornecedores;
 
-    @FXML
-    private void atualizarSceneEspecies() {
+    private void atualizarScene(String fxml, String titulo) {
         try {
-            App.setNewScene("especies", "Gerenciamento de Espécies");
+            App.setNewScene(fxml, "Gerenciamento de " + titulo);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
+    private void atualizarSceneEspecies() {
+        atualizarScene("especies", "Espécies");
+    }
+
+    @FXML
     private void atualizarSceneRacas() {
-        try {
-            App.setNewScene("racas", "Gerenciamento de Raças");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        atualizarScene("racas", "Raças");
     }
 
     @FXML
@@ -46,6 +46,11 @@ public class MenuController {
     @FXML
     private void atualizarSceneEstoque() {
 
+    }
+
+    @FXML
+    private void atualizarSceneCategorias() {
+        atualizarScene("categorias", "Categorias");
     }
 
     @FXML

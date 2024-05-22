@@ -50,7 +50,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Button layoutX="374.0" layoutY="80.0" mnemonicParsing="false" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Categorias" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="80.0">
+      <Button layoutX="374.0" layoutY="80.0" mnemonicParsing="false" onAction="#atualizarSceneCategorias" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Categorias" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="80.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
