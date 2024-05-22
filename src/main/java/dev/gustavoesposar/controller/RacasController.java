@@ -21,7 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class RacasController implements RetornarInterface {
+public class RacasController extends OpcaoDoMenu {
 
     @FXML
     private ChoiceBox<String> boxEspecies;
@@ -164,12 +164,6 @@ public class RacasController implements RetornarInterface {
         colIdRaca.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
         colEspecie.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
         colNome.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
-    }
-
-    @Override
-    @FXML
-    public void voltarMenu() {
-        RetornarInterface.super.voltarMenu();
     }
 
 }

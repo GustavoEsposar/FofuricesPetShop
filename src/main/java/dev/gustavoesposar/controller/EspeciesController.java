@@ -18,7 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class EspeciesController implements RetornarInterface{
+public class EspeciesController extends OpcaoDoMenu{
 
     @FXML
     private TextField txtAddEspecie;
@@ -116,11 +116,4 @@ public class EspeciesController implements RetornarInterface{
         colIdEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
         colNomeEspecie.prefWidthProperty().bind(tblEspecies.widthProperty().multiply(0.5));
     }
-    
-    @Override
-    @FXML
-    public void voltarMenu() {
-        RetornarInterface.super.voltarMenu();
-    }
-
 }
