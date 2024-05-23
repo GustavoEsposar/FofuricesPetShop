@@ -4,8 +4,9 @@ import java.io.IOException;
 
 import dev.gustavoesposar.App;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
-public abstract class OpcaoDoMenu{
+public abstract class OpcaoDoMenu {
     @FXML
     protected void voltarMenu() {
         try {
@@ -14,4 +15,23 @@ public abstract class OpcaoDoMenu{
             e.printStackTrace();
         }
     }
+
+    protected void janelaErroDeInsercao() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro de inserção");
+        alert.setHeaderText("O nome fornecido já existe no banco de dados");
+        alert.showAndWait();
+    }
+
+    protected abstract void atualizarTabela();
+
+    protected void processarResultado(boolean sucesso) {
+        if (sucesso) {
+            atualizarTabela();
+        } else {
+            janelaErroDeInsercao();
+        }
+    }
+
+    protected abstract void restaurarValoresVariaveis();
 }

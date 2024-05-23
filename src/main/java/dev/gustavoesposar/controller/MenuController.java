@@ -54,6 +54,11 @@ public class MenuController {
     }
 
     @FXML
+    private void atualizarSceneMarcas() {
+        atualizarScene("marcas", "Marcas");
+    }
+
+    @FXML
     private void atualizarSceneProdutos() {
 
     }

@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -22,7 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class RacasController extends OpcaoDoMenu {
+public final class RacasController extends OpcaoDoMenu {
 
     @FXML
     private ChoiceBox<String> boxEspecies;
@@ -62,16 +61,12 @@ public class RacasController extends OpcaoDoMenu {
     
         boolean sucesso = DatabaseManager.executarUpdate(sql, nome, especieSelecionada, nome);
     
-        if (sucesso) {
-            atualizarTabela();
-        } else {
-            janelaErroSql();
-        }
+        super.processarResultado(sucesso);
 
         restaurarValoresVariaveis();
     }
 
-    private void atualizarTabela() {
+    protected void atualizarTabela() {
         ObservableList<Raca> racasList = FXCollections.observableArrayList();
     
         String sql = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
@@ -99,14 +94,7 @@ public class RacasController extends OpcaoDoMenu {
         tblRacas.setItems(racasList);
     }    
 
-    private void janelaErroSql() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Inconsistência nos dados");
-        alert.setHeaderText("Dados de entrada não adequados.");
-        alert.showAndWait();
-    }
-
-    private void restaurarValoresVariaveis() {
+    protected void restaurarValoresVariaveis() {
         boxEspecies.setValue("Selecionar");
         txtAdd.setText(null);
     }
@@ -118,11 +106,7 @@ public class RacasController extends OpcaoDoMenu {
 
         boolean sucesso = DatabaseManager.executarUpdate(sql, idRaca);
 
-        if (sucesso) {
-            atualizarTabela();
-        } else {
-            janelaErroSql();
-        }
+        super.processarResultado(sucesso);
     }
 
     private void atualizarEspecies() {

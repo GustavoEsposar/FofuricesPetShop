@@ -9,14 +9,13 @@ import dev.gustavoesposar.model.Categoria;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class CategoriaController extends OpcaoDoMenu {
+public final class CategoriaController extends OpcaoDoMenu {
 
     @FXML
     private Button btnAdd;
@@ -46,14 +45,10 @@ public class CategoriaController extends OpcaoDoMenu {
 
         boolean sucesso = DatabaseManager.executarUpdate(sql, nome, nome);
 
-        if (sucesso) {
-            atualizarTabela();
-        } else {
-            janelaErroDeInsercao();
-        }
+        super.processarResultado(sucesso);
     }
 
-    private void atualizarTabela() {
+    protected void atualizarTabela() {
         ObservableList<Categoria> categoriasList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM Categoria";
 
@@ -75,13 +70,6 @@ public class CategoriaController extends OpcaoDoMenu {
         tblCategorias.setItems(categoriasList);
     }
 
-    private void janelaErroDeInsercao() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro de inserção");
-        alert.setHeaderText("O nome fornecido já existe no banco de dados");
-        alert.showAndWait();
-    }
-
     @FXML
     private void removerCategoria() {
         String id = txtRm.getText();
@@ -89,11 +77,7 @@ public class CategoriaController extends OpcaoDoMenu {
 
         boolean sucesso = DatabaseManager.executarUpdate(sql, id);
 
-        if (sucesso) {
-            atualizarTabela();
-        } else {
-            janelaErroDeInsercao();
-        }
+        super.processarResultado(sucesso);
     }
 
     @FXML
@@ -111,6 +95,11 @@ public class CategoriaController extends OpcaoDoMenu {
     private void ajustarLarguraColunas() {
         colIdCategoria.prefWidthProperty().bind(tblCategorias.widthProperty().multiply(0.5));
         colNome.prefWidthProperty().bind(tblCategorias.widthProperty().multiply(0.5));
+    }
+
+    @Override
+    protected void restaurarValoresVariaveis() {
+        txtAdd.setText(null);
     }
 
 }
