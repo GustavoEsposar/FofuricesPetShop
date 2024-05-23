@@ -17,6 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class MarcasController extends OpcaoDoMenu {
+    private final String sqlSelect = "SELECT * FROM Marca";
+    private final String sqlInsert =  "INSERT INTO Marca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Marca WHERE nome = ?);";
+    private final String sqlDelete = "DELETE FROM Marca WHERE idMarca = ? LIMIT 1;";
 
     @FXML
     private Button btnAdd;
@@ -42,9 +45,8 @@ public final class MarcasController extends OpcaoDoMenu {
     @FXML
     private void adicionar(ActionEvent event) {
         String nome = txtAdd.getText();
-        String sql = "INSERT INTO Marca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Marca WHERE nome = ?);";
 
-        boolean sucesso = DatabaseManager.executarUpdate(sql, nome, nome);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, nome);
 
         super.processarResultado(sucesso);
         restaurarValoresVariaveis();
@@ -53,9 +55,8 @@ public final class MarcasController extends OpcaoDoMenu {
     @Override
     protected void atualizarTabela() {
         ObservableList<Marca> marcasList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Marca";
 
-        try(ResultSet res = DatabaseManager.executarConsulta(sql)){
+        try(ResultSet res = DatabaseManager.executarConsulta(sqlSelect)){
             while (res.next()) {
                 int idMarca = res.getInt("idMarca");
                 String nome = res.getString("Nome");
@@ -74,9 +75,8 @@ public final class MarcasController extends OpcaoDoMenu {
     @FXML
     private void remover(ActionEvent event) {
         String idMarca = txtRm.getText();
-        String sql = "DELETE FROM Marca WHERE idMarca = ? LIMIT 1;";
 
-        boolean sucesso = DatabaseManager.executarUpdate(sql, idMarca);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idMarca);
 
         super.processarResultado(sucesso);
     }

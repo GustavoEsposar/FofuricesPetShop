@@ -22,6 +22,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class RacasController extends OpcaoDoMenu {
+    private final String sqlSelect = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
+            "FROM Raca " +
+            "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie";
+    private final String sqlInsert = "INSERT INTO Raca (nome, Especie_idEspecie) " +
+            "SELECT ?, idEspecie FROM Especie " +
+            "WHERE nome = ? " +
+            "AND NOT EXISTS (SELECT 1 FROM Raca WHERE nome = ?)";
+    private final String sqlDelete = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
 
     @FXML
     private ChoiceBox<String> boxEspecies;
@@ -54,13 +62,9 @@ public final class RacasController extends OpcaoDoMenu {
     private void adicionarRaca(ActionEvent event) {
         String nome = txtAdd.getText();
         String especieSelecionada = boxEspecies.getValue();
-        String sql = "INSERT INTO Raca (nome, Especie_idEspecie) " +
-                     "SELECT ?, idEspecie FROM Especie " +
-                     "WHERE nome = ? " +
-                     "AND NOT EXISTS (SELECT 1 FROM Raca WHERE nome = ?)";
-    
-        boolean sucesso = DatabaseManager.executarUpdate(sql, nome, especieSelecionada, nome);
-    
+
+        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, especieSelecionada, nome);
+
         super.processarResultado(sucesso);
 
         restaurarValoresVariaveis();
@@ -68,31 +72,27 @@ public final class RacasController extends OpcaoDoMenu {
 
     protected void atualizarTabela() {
         ObservableList<Raca> racasList = FXCollections.observableArrayList();
-    
-        String sql = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
-                     "FROM Raca " +
-                     "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie";
-    
+
         try (Connection conn = DatabaseManager.getConexao();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-    
+                PreparedStatement statement = conn.prepareStatement(sqlSelect);
+                ResultSet resultSet = statement.executeQuery()) {
+
             while (resultSet.next()) {
                 int idRaca = resultSet.getInt("idRaca");
                 String nome = resultSet.getString("nome");
                 String nomeEspecie = resultSet.getString("nomeEspecie");
-    
+
                 Raca raca = new Raca(idRaca, nome, nomeEspecie);
                 racasList.add(raca);
             }
-    
+
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+
         tblRacas.setItems(racasList);
-    }    
+    }
 
     protected void restaurarValoresVariaveis() {
         boxEspecies.setValue("Selecionar");
@@ -102,9 +102,8 @@ public final class RacasController extends OpcaoDoMenu {
     @FXML
     private void removerRaca(ActionEvent event) {
         String idRaca = txtRm.getText();
-        String sql = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
 
-        boolean sucesso = DatabaseManager.executarUpdate(sql, idRaca);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idRaca);
 
         super.processarResultado(sucesso);
     }
@@ -112,11 +111,7 @@ public final class RacasController extends OpcaoDoMenu {
     private void atualizarEspecies() {
         ObservableList<String> especiesList = FXCollections.observableArrayList();
 
-        String sql = "SELECT nome FROM Especie";
-        try (Connection conn = DatabaseManager.getConexao();
-                PreparedStatement statement = conn.prepareStatement(sql);
-                ResultSet resultSet = statement.executeQuery()) {
-
+        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nome FROM Especie")) {
             especiesList.add(0, "Selecionar");
             while (resultSet.next()) {
                 String nome = resultSet.getString("nome");
@@ -143,7 +138,7 @@ public final class RacasController extends OpcaoDoMenu {
         colIdRaca.setCellValueFactory(new PropertyValueFactory<>("idRaca"));
         colEspecie.setCellValueFactory(new PropertyValueFactory<>("nomeEspecie"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-    }    
+    }
 
     private void ajustarLarguraColunas() {
         colIdRaca.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));

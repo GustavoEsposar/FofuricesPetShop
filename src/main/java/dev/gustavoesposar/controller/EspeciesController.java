@@ -17,6 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class EspeciesController extends OpcaoDoMenu{
+    private final String sqlSelect = "SELECT * FROM Especie";
+    private final String sqlInsert = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
+    private final String sqlDelete = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
 
     @FXML
     private TextField txtAddEspecie;
@@ -42,9 +45,8 @@ public final class EspeciesController extends OpcaoDoMenu{
     @FXML
     private void adicionarEspecie(ActionEvent event) {
         String nomeEspecie = txtAddEspecie.getText();
-        String sql = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
         
-        boolean sucesso = DatabaseManager.executarUpdate(sql, nomeEspecie, nomeEspecie);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nomeEspecie, nomeEspecie);
         
         super.processarResultado(sucesso);
     }
@@ -52,8 +54,7 @@ public final class EspeciesController extends OpcaoDoMenu{
     protected void atualizarTabela() {
         ObservableList<Especie> especiesList = FXCollections.observableArrayList();
 
-        String sql = "SELECT * FROM Especie";
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
 
             while (resultSet.next()) {
                 int idEspecie = resultSet.getInt("idEspecie");
@@ -74,9 +75,8 @@ public final class EspeciesController extends OpcaoDoMenu{
     @FXML
     private void removerEspecie(ActionEvent event) {
         String idEspecie = txtRmEspecie.getText();
-        String sql = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
         
-        boolean sucesso = DatabaseManager.executarUpdate(sql, idEspecie);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idEspecie);
         
         super.processarResultado(sucesso);
     }

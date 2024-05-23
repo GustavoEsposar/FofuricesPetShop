@@ -16,6 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class CategoriaController extends OpcaoDoMenu {
+    private final String sqlInsert = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
+    private final String sqlSelect = "SELECT * FROM Categoria";
+    private final String sqlDelete = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
 
     @FXML
     private Button btnAdd;
@@ -41,18 +44,16 @@ public final class CategoriaController extends OpcaoDoMenu {
     @FXML
     private void adicionarCategoria() {
         String nome = txtAdd.getText();
-        String sql = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
 
-        boolean sucesso = DatabaseManager.executarUpdate(sql, nome, nome);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, nome);
 
         super.processarResultado(sucesso);
     }
 
     protected void atualizarTabela() {
         ObservableList<Categoria> categoriasList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Categoria";
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
 
             while (resultSet.next()) {
                 int idCategoria = resultSet.getInt("idCategoria");
@@ -73,9 +74,8 @@ public final class CategoriaController extends OpcaoDoMenu {
     @FXML
     private void removerCategoria() {
         String id = txtRm.getText();
-        String sql = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
 
-        boolean sucesso = DatabaseManager.executarUpdate(sql, id);
+        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
 
         super.processarResultado(sucesso);
     }
