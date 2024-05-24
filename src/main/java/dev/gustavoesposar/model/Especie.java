@@ -1,6 +1,6 @@
 package dev.gustavoesposar.model;
 
-public class Especie {
+public final class Especie {
     private int idEspecie;
     private String nome;
 

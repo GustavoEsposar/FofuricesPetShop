@@ -1,6 +1,6 @@
 package dev.gustavoesposar.model;
 
-public class Marca {
+public final class Marca {
     private int idMarca;
     private String Nome;
 

@@ -1,6 +1,6 @@
 package dev.gustavoesposar.model;
 
-public class Raca {
+public final class Raca {
     private int idRaca;
     private String nome;
     private String nomeEspecie; // Alteração do tipo e nome do atributo

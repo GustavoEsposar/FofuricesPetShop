@@ -1,6 +1,6 @@
 package dev.gustavoesposar.model;
 
-public class Categoria {
+public final class Categoria {
     private int idCategoria;
     private String nome;
 
