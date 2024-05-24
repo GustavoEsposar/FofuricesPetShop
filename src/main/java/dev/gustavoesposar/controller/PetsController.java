@@ -1,6 +1,7 @@
 package dev.gustavoesposar.controller;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
+import dev.gustavoesposar.database.DatabaseManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
