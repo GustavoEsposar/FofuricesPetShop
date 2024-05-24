@@ -40,7 +40,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Button layoutX="62.0" layoutY="225.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Pets" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="220.0">
+      <Button layoutX="62.0" layoutY="225.0" mnemonicParsing="false" onAction="#atualizarScenePets" prefWidth="120.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Pets" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="220.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

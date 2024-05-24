@@ -6,7 +6,7 @@ import dev.gustavoesposar.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class MenuController {
+public final class MenuController {
 
     @FXML
     private Button btnEspecies;
@@ -36,6 +36,11 @@ public class MenuController {
     @FXML
     private void atualizarSceneRacas() {
         atualizarScene("racas", "Raças");
+    }
+
+    @FXML
+    private void atualizarScenePets() {
+        atualizarScene("pets", "Pets");
     }
 
     @FXML
