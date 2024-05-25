@@ -49,6 +49,7 @@ public final class EspeciesController extends OpcaoDoMenu{
         boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nomeEspecie, nomeEspecie);
         
         super.processarResultado(sucesso);
+        restaurarValoresVariaveis();
     }
     
     protected void atualizarTabela() {

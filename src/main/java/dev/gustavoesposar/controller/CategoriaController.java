@@ -48,6 +48,7 @@ public final class CategoriaController extends OpcaoDoMenu {
         boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, nome);
 
         super.processarResultado(sucesso);
+        restaurarValoresVariaveis();
     }
 
     protected void atualizarTabela() {
