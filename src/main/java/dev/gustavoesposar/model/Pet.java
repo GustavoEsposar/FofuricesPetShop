@@ -1,17 +1,19 @@
 package dev.gustavoesposar.model;
 
+import java.math.BigDecimal;
+
 public final class Pet {
 
     private int idPet;
     private String especieNome;
     private String racaNome;
     private String fornecedorNome;
-    private double valor;
+    private BigDecimal valor;
 
     public Pet() {
     }
 
-    public Pet(int idPet, String especieNome, String racaNome, String fornecedorNome, double valor) {
+    public Pet(int idPet, String especieNome, String racaNome, String fornecedorNome, BigDecimal  valor) {
         this.idPet = idPet;
         this.especieNome = especieNome;
         this.racaNome = racaNome;
@@ -51,11 +53,11 @@ public final class Pet {
         this.fornecedorNome = fornecedorNome;
     }
 
-    public double getValor() {
+    public BigDecimal  getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(BigDecimal  valor) {
         this.valor = valor;
     }
 }

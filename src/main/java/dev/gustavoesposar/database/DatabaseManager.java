@@ -1,5 +1,6 @@
 package dev.gustavoesposar.database;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,6 +35,22 @@ public class DatabaseManager {
             PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 statement.setString(i + 1, params[i]);
+            }
+            int res = statement.executeUpdate();
+            DatabaseManager.fecharConexao();
+            return res > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean executarUpdate(String sql, BigDecimal valor, String... params) {
+        try {
+            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+            statement.setBigDecimal(1, valor);
+            for (int i = 0; i < params.length; i++) {
+                statement.setString(i + 2, params[i]);
             }
             int res = statement.executeUpdate();
             DatabaseManager.fecharConexao();

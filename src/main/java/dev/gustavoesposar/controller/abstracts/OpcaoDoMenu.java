@@ -16,21 +16,21 @@ public abstract class OpcaoDoMenu {
         }
     }
 
-    protected void janelaErroDeInsercao() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro de inserção");
-        alert.setHeaderText("O nome fornecido já existe no banco de dados");
-        alert.showAndWait();
-    }
-
-    protected abstract void atualizarTabela();
-
     protected void processarResultado(boolean sucesso) {
         if (sucesso) {
             atualizarTabela();
         } else {
             janelaErroDeInsercao();
         }
+    }
+
+    protected abstract void atualizarTabela();
+
+    private void janelaErroDeInsercao() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro de inserção");
+        alert.setHeaderText("O nome fornecido já existe no banco de dados");
+        alert.showAndWait();
     }
 
     protected abstract void restaurarValoresVariaveis();
