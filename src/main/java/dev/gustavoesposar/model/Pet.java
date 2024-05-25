@@ -3,17 +3,19 @@ package dev.gustavoesposar.model;
 public final class Pet {
 
     private int idPet;
-    private int racaIdRaca;
-    private Integer fornecedorIdFornecedor;
+    private String especieNome;
+    private String racaNome;
+    private String fornecedorNome;
     private double valor;
 
     public Pet() {
     }
 
-    public Pet(int idPet, int racaIdRaca, Integer fornecedorIdFornecedor, double valor) {
+    public Pet(int idPet, String especieNome, String racaNome, String fornecedorNome, double valor) {
         this.idPet = idPet;
-        this.racaIdRaca = racaIdRaca;
-        this.fornecedorIdFornecedor = fornecedorIdFornecedor;
+        this.especieNome = especieNome;
+        this.racaNome = racaNome;
+        this.fornecedorNome = fornecedorNome;
         this.valor = valor;
     }
 
@@ -25,20 +27,28 @@ public final class Pet {
         this.idPet = idPet;
     }
 
-    public int getRacaIdRaca() {
-        return racaIdRaca;
+    public String getEspecieNome() {
+        return especieNome;
     }
 
-    public void setRacaIdRaca(int racaIdRaca) {
-        this.racaIdRaca = racaIdRaca;
+    public void setEspecieNome(String especieNome) {
+        this.especieNome = especieNome;
     }
 
-    public Integer getFornecedorIdFornecedor() {
-        return fornecedorIdFornecedor;
+    public String getRacaNome() {
+        return racaNome;
     }
 
-    public void setFornecedorIdFornecedor(Integer fornecedorIdFornecedor) {
-        this.fornecedorIdFornecedor = fornecedorIdFornecedor;
+    public void setRacaNome(String racaNome) {
+        this.racaNome = racaNome;
+    }
+
+    public String getFornecedorNome() {
+        return fornecedorNome;
+    }
+
+    public void setFornecedorNome(String fornecedorNome) {
+        this.fornecedorNome = fornecedorNome;
     }
 
     public double getValor() {
