@@ -89,7 +89,7 @@ public final class PetsController extends OpcaoDoMenu {
 
     @FXML
     private void adicionar(ActionEvent event) {
-        String raca = boxRaca.getValue().split(" ")[1];
+        String raca = boxRaca.getValue().substring(boxRaca.getValue().indexOf(" ") + 1);
         String fornecedor = boxFornecedor.getValue();
         BigDecimal valor = new BigDecimal(txtAdd.getText());
 
@@ -100,7 +100,7 @@ public final class PetsController extends OpcaoDoMenu {
         } else {
             sucesso = DatabaseManager.executarUpdate(sqlInsert, valor, raca, fornecedor);
         }
-
+        
         super.processarResultado(sucesso);
         restaurarValoresVariaveis();
     }
