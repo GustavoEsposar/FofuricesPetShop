@@ -95,7 +95,7 @@ public final class RacasController extends OpcaoDoMenu {
     }
 
     protected void restaurarValoresVariaveis() {
-        boxEspecies.setValue("Selecionar");
+        boxEspecies.setValue("Espécie");
         txtAdd.setText(null);
     }
 
@@ -112,14 +112,14 @@ public final class RacasController extends OpcaoDoMenu {
         ObservableList<String> especiesList = FXCollections.observableArrayList();
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nome FROM Especie")) {
-            especiesList.add(0, "Selecionar");
+            especiesList.add(0, "Espécie");
             while (resultSet.next()) {
                 String nome = resultSet.getString("nome");
                 especiesList.add(nome);
             }
 
             Platform.runLater(() -> boxEspecies.setItems(especiesList));
-            boxEspecies.setValue("Selecionar");
+            boxEspecies.setValue("Espécie");
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();

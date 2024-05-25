@@ -18,7 +18,7 @@
          </font>
       </Button>
       <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="640.0" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="txtAdd" layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="440.0" promptText="Digite o nome" AnchorPane.leftAnchor="30.0">
+      <TextField fx:id="txtAdd" layoutX="30.0" layoutY="75.0" prefHeight="35.0" prefWidth="205.0" promptText="Digite o nome" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="75.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -38,6 +38,7 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="boxEspecies" layoutX="30.0" layoutY="138.0" prefHeight="35.0" prefWidth="205.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="75.0" />
       <TextField fx:id="txtRm" layoutX="741.0" layoutY="75.0" prefWidth="440.0" promptText="Digite o ID" AnchorPane.leftAnchor="670.0">
          <font>
             <Font size="16.0" />
@@ -55,6 +56,5 @@
             <TableColumn fx:id="colNome" text="Raça" />
          </columns>
       </TableView>
-      <ChoiceBox fx:id="boxEspecies" layoutX="30.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0" />
    </children>
 </AnchorPane>
