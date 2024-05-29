@@ -37,7 +37,7 @@ public final class MenuController {
 
     @FXML
     private void atualizarSceneLogin() {
-        //atualizarScene("logins", "Logins");
+        atualizarScene("logins", "Logins");
     }
 
     @FXML
