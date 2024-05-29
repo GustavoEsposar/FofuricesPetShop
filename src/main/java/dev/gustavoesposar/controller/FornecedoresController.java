@@ -13,6 +13,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FornecedoresController extends OpcaoDoMenu{
     private final String sqlDelete = "DELETE FROM Fornecedor WHERE idFornecedor = ? LIMIT 1;";
+    private final String sqlInsert = "INSERT INTO Fornecedor (nomeFantasia, razaoSocial, email, telefone, cnpj) " +
+                                    "SELECT ?, ?, ?, ?, ? " +
+                                    "WHERE NOT EXISTS (SELECT 1 FROM Fornecedor WHERE cnpj = ?)";
+
 
     @FXML
     private Button btnAdd;
@@ -64,7 +68,22 @@ public class FornecedoresController extends OpcaoDoMenu{
 
     @FXML
     private void adicionar(ActionEvent event) {
+        String fantasia = txtNomeFantasia.getText();
+        String razao = txtRazaoSocial.getText();
+        String email = txtEmail.getText();
+        String telefone = txtTelefone.getText();
+        String cnpj = txtCnpj.getText();
 
+        boolean sucesso = false;
+        if (btnAdd.getText().equals("Update")) {
+            btnAdd.setText("Adicionar");
+            //sucesso = DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
+        } else {
+            sucesso = DatabaseManager.executarUpdate(sqlInsert, fantasia, razao, email, telefone, cnpj, cnpj);
+        }
+
+        processarResultado(sucesso);
+        restaurarValoresVariaveis();
     }
 
     @FXML
@@ -119,7 +138,12 @@ public class FornecedoresController extends OpcaoDoMenu{
 
     @Override
     protected void restaurarValoresVariaveis() {
-
+        txtNomeFantasia.setText(null);
+        txtRazaoSocial.setText(null);
+        txtEmail.setText(null);
+        txtTelefone.setText(null);
+        txtCnpj.setText(null);
+        txtId.setText(null);
     }
 
 }
