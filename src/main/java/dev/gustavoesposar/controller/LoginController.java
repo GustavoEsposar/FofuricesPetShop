@@ -2,7 +2,6 @@ package dev.gustavoesposar.controller;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
