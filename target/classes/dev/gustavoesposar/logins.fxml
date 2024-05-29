@@ -18,7 +18,7 @@
          </font>
       </Button>
       <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="815.0" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="txtEmail" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="320.0" promptText="Digite o email" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="75.0">
+      <TextField fx:id="txtEmail" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="650.0" promptText="Digite o email" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="75.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -59,7 +59,12 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <PasswordField fx:id="txtSenha" layoutX="386.0" layoutY="80.0" prefHeight="35.0" prefWidth="320.0" promptText="Digite a senha" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="75.0">
+      <PasswordField fx:id="txtSenhaConfirmar" disable="true" layoutX="386.0" layoutY="80.0" prefHeight="35.0" prefWidth="320.0" promptText="Confirme a senha" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="125.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </PasswordField>
+      <PasswordField fx:id="txtSenha" layoutX="30.0" layoutY="125.0" prefHeight="35.0" prefWidth="320.0" promptText="Digite a senha" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0">
          <font>
             <Font size="16.0" />
          </font>

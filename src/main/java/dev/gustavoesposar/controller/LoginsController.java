@@ -1,6 +1,7 @@
 package dev.gustavoesposar.controller;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
+import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LoginsController extends OpcaoDoMenu{
+    private final String sqlDelete = "DELETE FROM Login WHERE idLogin = ? LIMIT 1;";
 
     @FXML
     private Button btnAdd;
@@ -52,7 +54,12 @@ public class LoginsController extends OpcaoDoMenu{
 
     @FXML
     private void remover(ActionEvent event) {
+        String id = txtId.getText();
 
+        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
+
+        processarResultado(sucesso);
+        restaurarValoresVariaveis();
     }
 
     @Override
@@ -62,6 +69,9 @@ public class LoginsController extends OpcaoDoMenu{
 
     @Override
     protected void restaurarValoresVariaveis() {
+        txtEmail.setText(null);
+        txtSenha.setText(null);
+        txtId.setText(null);
     }
 
     @FXML
