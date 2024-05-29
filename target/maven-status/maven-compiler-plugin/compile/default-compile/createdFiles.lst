@@ -15,4 +15,5 @@ dev\gustavoesposar\model\Especie.class
 dev\gustavoesposar\model\Pet.class
 dev\gustavoesposar\controller\PetsController.class
 dev\gustavoesposar\model\Categoria.class
+dev\gustavoesposar\utils\PasswordUtil.class
 dev\gustavoesposar\model\Fornecedor.class
