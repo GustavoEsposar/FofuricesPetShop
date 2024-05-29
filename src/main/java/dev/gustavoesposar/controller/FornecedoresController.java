@@ -22,13 +22,14 @@ public class FornecedoresController extends OpcaoDoMenu{
                                     "SELECT ?, ?, ?, ?, ? " +
                                     "WHERE NOT EXISTS (SELECT 1 FROM Fornecedor WHERE cnpj = ?)";
     private final String sqlSelect =    "select " + //
-                                        "    idFornecedor," +
-                                        "    nomeFantasia," + //
-                                        "    razaoSocial," + //
-                                        "    email," + //
-                                        "    telefone," + //
+                                        "    idFornecedor, " +
+                                        "    nomeFantasia, " + //
+                                        "    razaoSocial,  " + //
+                                        "    email, " + //
+                                        "    telefone, " + //
                                         "    cnpj" + //
                                         " from fornecedor";
+    private final String sqlUpdate = sqlSelect.replace("idFornecedor,", "").concat(" WHERE idFornecedor = ?");
 
     @FXML
     private Button btnAdd;
@@ -100,6 +101,15 @@ public class FornecedoresController extends OpcaoDoMenu{
 
     @FXML
     private void atualizar(ActionEvent event) {
+        if (btnAdd.getText().equals("Update")) {
+            return;
+        }
+
+        btnAdd.setText("Update");
+
+        //try(ResultSet res = DatabaseManager.executarConsulta(sqlUpdate)) {
+
+        //}
 
     }
 
