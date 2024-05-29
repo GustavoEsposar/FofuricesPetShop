@@ -64,7 +64,16 @@ public class DatabaseManager {
     public static ResultSet executarConsulta(String sql) throws SQLException {
         Connection conn = DatabaseManager.getConexao();
         PreparedStatement statement = conn.prepareStatement(sql);
-        System.out.println(statement);
+        ResultSet res = statement.executeQuery();
+        return res;
+    }
+
+    public static ResultSet executarConsulta(String sql, String... params) throws SQLException {
+        Connection conn = DatabaseManager.getConexao();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 1, params[i]);
+        }
         ResultSet res = statement.executeQuery();
         return res;
     }

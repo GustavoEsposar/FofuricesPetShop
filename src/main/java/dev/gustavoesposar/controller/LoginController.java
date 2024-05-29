@@ -1,12 +1,12 @@
 package dev.gustavoesposar.controller;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
+import dev.gustavoesposar.utils.PasswordUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public final class LoginController {
+    private final String sqlConsultarSenha = "SELECT senha FROM login WHERE email = ?";
 
     @FXML
     private TextField txtEmail;
@@ -29,16 +30,10 @@ public final class LoginController {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
 
-        try {
-            String sql = "SELECT * FROM login WHERE email = ? AND senha = ?";
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            statement.setString(1, email);
-            statement.setString(2, senha);
+        try(ResultSet res = DatabaseManager.executarConsulta(sqlConsultarSenha, email)) {
 
-            ResultSet res = statement.executeQuery();
-
-            if(res.next()) {
-                atualizarSceneMenu();
+            if(res.next() & PasswordUtil.checkPassword(senha, res.getString("senha"))) {
+                    atualizarSceneMenu();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro de login");
@@ -47,7 +42,6 @@ public final class LoginController {
                 alert.showAndWait();
             }
             DatabaseManager.fecharConexao();
-
         } catch(SQLException e) {
             janelaErroDeConexao();
         }
