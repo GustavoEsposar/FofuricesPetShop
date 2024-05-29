@@ -62,7 +62,7 @@
       </Button>
       <Separator layoutX="161.0" orientation="VERTICAL" prefHeight="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="190.0" />
       <Separator layoutX="366.0" orientation="VERTICAL" prefHeight="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="190.0" />
-      <Button fx:id="btnFornecedores1" layoutX="201.0" layoutY="150.0" mnemonicParsing="false" onAction="#atualizarSceneFornecedores" prefWidth="167.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Login" AnchorPane.rightAnchor="201.5" AnchorPane.topAnchor="150.0">
+      <Button fx:id="btnFornecedores1" layoutX="201.0" layoutY="150.0" mnemonicParsing="false" onAction="#atualizarSceneLogin" prefWidth="167.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Login" AnchorPane.rightAnchor="201.5" AnchorPane.topAnchor="150.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

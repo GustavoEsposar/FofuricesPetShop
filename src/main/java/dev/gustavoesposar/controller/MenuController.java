@@ -4,21 +4,8 @@ import java.io.IOException;
 
 import dev.gustavoesposar.App;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 
 public final class MenuController {
-
-    @FXML
-    private Button btnEspecies;
-
-    @FXML
-    private Button btnRacas;
-
-    @FXML
-    private Button btnEstoque;
-
-    @FXML
-    private Button btnFornecedores;
 
     private void atualizarScene(String fxml, String titulo) {
         try {
@@ -49,8 +36,8 @@ public final class MenuController {
     }
 
     @FXML
-    private void atualizarSceneEstoque() {
-
+    private void atualizarSceneLogin() {
+        //atualizarScene("logins", "Logins");
     }
 
     @FXML
@@ -65,6 +52,11 @@ public final class MenuController {
 
     @FXML
     private void atualizarSceneProdutos() {
+        //atualizarScene("produtos", "Produtos");
+    }
 
+    @FXML
+    private void atualizarSceneEstoque() {
+        //atualizarScene("estoque", "Estoque");
     }
 }
