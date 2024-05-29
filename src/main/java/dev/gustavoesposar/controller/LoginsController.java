@@ -27,6 +27,12 @@ public class LoginsController extends OpcaoDoMenu{
                                         "    SELECT 1 FROM login WHERE email = ?\r\n" + //
                                         ")\r\n" + //
                                         "";
+    private final String sqlUpdate =    "UPDATE login\n" + //
+                                        "SET \n" + //
+                                        "\temail = ?,\n" + //
+                                        "\tsenha = ?\n" + //
+                                        "WHERE idLogin = ?\n" + //
+                                        "";
 
     @FXML
     private Button btnAdd;
@@ -56,20 +62,31 @@ public class LoginsController extends OpcaoDoMenu{
     private PasswordField txtSenha;
 
     @FXML
+    private PasswordField txtSenhaConfirmar;
+
+    @FXML
     private void adicionar(ActionEvent event) {
         String email = txtEmail.getText();
-        String senha = PasswordUtil.hashPassword(txtSenha.getText());
+        String senha = txtSenha.getText();
+        boolean sucesso;
 
-        boolean sucesso = false;
-        if (btnAdd.getText().equals("Update")) {
-            btnAdd.setText("Adicionar");
-            //sucesso = DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
-        } else {
-            sucesso = DatabaseManager.executarUpdate(sqlInsert, email, senha, email);
+        try {
+            if (senhasForamPreenchidas(txtSenha.getText(), txtSenhaConfirmar.getText()) & txtSenha.getText().equals(txtSenhaConfirmar.getText())) {
+                if (btnAdd.getText().equals("Update")) {
+                    btnAdd.setText("Adicionar");
+                    sucesso = DatabaseManager.executarUpdate(sqlUpdate, email, PasswordUtil.hashPassword(senha), txtId.getText());
+                } else {
+                    sucesso = DatabaseManager.executarUpdate(sqlInsert, email, PasswordUtil.hashPassword(senha), email);
+                }
+
+                processarResultado(sucesso);
+                restaurarValoresVariaveis();
+            } else {
+                throw new IllegalArgumentException("As senhas não coincidem");
+            }
+        } catch (Exception e) {
+            super.janelaDeErro(e.toString());
         }
-
-        processarResultado(sucesso);
-        restaurarValoresVariaveis();
     }
 
     @FXML
@@ -78,8 +95,20 @@ public class LoginsController extends OpcaoDoMenu{
             return;
         }
 
-        btnAdd.setText("Update");
+        String sql = "select email, senha from login where idLogin = ? limit 1";
         
+        try(ResultSet res = DatabaseManager.executarConsulta(sql, txtId.getText())) {
+            if (res.next()) {
+                txtEmail.setText(res.getString("email"));
+                txtSenha.setText(null);
+                txtSenhaConfirmar.setText(null);
+                btnAdd.setText("Update");
+            } else {
+                throw new IllegalArgumentException("ID não encontrado na base de dados");
+            }
+        } catch(Exception e) {
+            janelaDeErro(e.toString());
+        }
     }
 
     @FXML
@@ -116,6 +145,11 @@ public class LoginsController extends OpcaoDoMenu{
         txtEmail.setText(null);
         txtSenha.setText(null);
         txtId.setText(null);
+        txtSenhaConfirmar.setText(null);
+    }
+
+    private boolean senhasForamPreenchidas(String senha, String senhaConfirmar) {
+        return (!senha.equals("") & !senhaConfirmar.equals("")) & (senha != null & senhaConfirmar != null);
     }
 
     @FXML

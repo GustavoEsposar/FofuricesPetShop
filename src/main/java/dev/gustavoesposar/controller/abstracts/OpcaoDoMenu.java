@@ -33,5 +33,12 @@ public abstract class OpcaoDoMenu {
         alert.showAndWait();
     }
 
+    protected void janelaDeErro(String erro) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(erro);
+        alert.showAndWait();
+    }
+
     protected abstract void restaurarValoresVariaveis();
 }
