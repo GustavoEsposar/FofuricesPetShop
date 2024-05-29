@@ -1,8 +1,13 @@
 package dev.gustavoesposar.controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Fornecedor;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,7 +21,14 @@ public class FornecedoresController extends OpcaoDoMenu{
     private final String sqlInsert = "INSERT INTO Fornecedor (nomeFantasia, razaoSocial, email, telefone, cnpj) " +
                                     "SELECT ?, ?, ?, ?, ? " +
                                     "WHERE NOT EXISTS (SELECT 1 FROM Fornecedor WHERE cnpj = ?)";
-
+    private final String sqlSelect =    "select " + //
+                                        "    idFornecedor," +
+                                        "    nomeFantasia," + //
+                                        "    razaoSocial," + //
+                                        "    email," + //
+                                        "    telefone," + //
+                                        "    cnpj" + //
+                                        " from fornecedor";
 
     @FXML
     private Button btnAdd;
@@ -101,9 +113,26 @@ public class FornecedoresController extends OpcaoDoMenu{
         restaurarValoresVariaveis();
     }
 
-    @FXML
-    private void voltarMenu(ActionEvent event) {
+    @Override
+    protected void atualizarTabela() {
+        ObservableList<Fornecedor> fornList = FXCollections.observableArrayList();
 
+        try(ResultSet res = DatabaseManager.executarConsulta(sqlSelect)) {
+            while (res.next()) {
+                int id = res.getInt("idFornecedor");
+                String fantasia = res.getString("nomeFantasia");
+                String razao = res.getString("razaoSocial");
+                String email = res.getString("email");
+                String telefone = res.getString("telefone");
+                String cnpj = res.getString("cnpj");
+    
+                Fornecedor fornecedor = new Fornecedor(id, fantasia, razao, email, telefone, cnpj);
+                fornList.add(fornecedor);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        tbl.setItems(fornList);
     }
 
     @FXML
@@ -129,11 +158,6 @@ public class FornecedoresController extends OpcaoDoMenu{
         colEmail.prefWidthProperty().bind(tbl.widthProperty().multiply(0.18));
         colTelefone.prefWidthProperty().bind(tbl.widthProperty().multiply(0.18));
         colCnpj.prefWidthProperty().bind(tbl.widthProperty().multiply(0.18));
-    }
-
-    @Override
-    protected void atualizarTabela() {
-;
     }
 
     @Override

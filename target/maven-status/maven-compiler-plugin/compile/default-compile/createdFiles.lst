@@ -6,6 +6,7 @@ dev\gustavoesposar\controller\abstracts\OpcaoDoMenu.class
 dev\gustavoesposar\controller\EspeciesController.class
 module-info.class
 dev\gustavoesposar\controller\LoginController.class
+dev\gustavoesposar\controller\FornecedoresController.class
 dev\gustavoesposar\controller\RacasController.class
 dev\gustavoesposar\App.class
 dev\gustavoesposar\controller\CategoriaController.class
@@ -14,3 +15,4 @@ dev\gustavoesposar\model\Especie.class
 dev\gustavoesposar\model\Pet.class
 dev\gustavoesposar\controller\PetsController.class
 dev\gustavoesposar\model\Categoria.class
+dev\gustavoesposar\model\Fornecedor.class

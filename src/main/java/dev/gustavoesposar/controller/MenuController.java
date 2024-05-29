@@ -45,7 +45,7 @@ public final class MenuController {
 
     @FXML
     private void atualizarSceneFornecedores() {
-
+        atualizarScene("fornecedores", "Fornecedores");
     }
 
     @FXML

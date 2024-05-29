@@ -64,6 +64,7 @@ public class DatabaseManager {
     public static ResultSet executarConsulta(String sql) throws SQLException {
         Connection conn = DatabaseManager.getConexao();
         PreparedStatement statement = conn.prepareStatement(sql);
+        System.out.println(statement);
         ResultSet res = statement.executeQuery();
         return res;
     }
