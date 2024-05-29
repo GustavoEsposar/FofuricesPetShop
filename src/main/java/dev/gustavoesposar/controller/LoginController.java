@@ -32,26 +32,21 @@ public final class LoginController {
 
         try(ResultSet res = DatabaseManager.executarConsulta(sqlConsultarSenha, email)) {
 
-            if(res.next() & PasswordUtil.checkPassword(senha, res.getString("senha"))) {
+            if(res.next() && PasswordUtil.checkPassword(senha, res.getString("senha"))) {
                     atualizarSceneMenu();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro de login");
-                alert.setHeaderText("Falha no login");
-                alert.setContentText("Credenciais inválidas. Verifique seu email e senha.");
-                alert.showAndWait();
+                throw new IllegalArgumentException("Email ou senha incorretos");
             }
             DatabaseManager.fecharConexao();
-        } catch(SQLException e) {
-            janelaErroDeConexao();
+        } catch(Exception e) {
+            janelaDeErro(e.toString());
         }
     }
 
-    private void janelaErroDeConexao() {
+    protected void janelaDeErro(String erro) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro de conexão");
-        alert.setHeaderText("Banco de dados não encontrado");
-        alert.setContentText("Não foi possivel conectar ao banco de dados.");
+        alert.setTitle("Erro");
+        alert.setHeaderText(erro);
         alert.showAndWait();
     }
 

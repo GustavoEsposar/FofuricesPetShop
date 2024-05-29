@@ -5,6 +5,8 @@ dev\gustavoesposar\controller\MenuController.class
 dev\gustavoesposar\controller\abstracts\OpcaoDoMenu.class
 dev\gustavoesposar\controller\EspeciesController.class
 module-info.class
+dev\gustavoesposar\model\Login.class
+dev\gustavoesposar\controller\LoginsController.class
 dev\gustavoesposar\controller\LoginController.class
 dev\gustavoesposar\controller\FornecedoresController.class
 dev\gustavoesposar\controller\RacasController.class

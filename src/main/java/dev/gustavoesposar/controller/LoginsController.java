@@ -149,7 +149,7 @@ public class LoginsController extends OpcaoDoMenu{
     }
 
     private boolean senhasForamPreenchidas(String senha, String senhaConfirmar) {
-        return (!senha.equals("") & !senhaConfirmar.equals("")) & (senha != null & senhaConfirmar != null);
+        return  (senha != null & senhaConfirmar != null) && (!senha.equals("") & !senhaConfirmar.equals(""));
     }
 
     @FXML
