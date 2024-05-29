@@ -29,7 +29,14 @@ public class FornecedoresController extends OpcaoDoMenu{
                                         "    telefone, " + //
                                         "    cnpj" + //
                                         " from fornecedor";
-    private final String sqlUpdate = sqlSelect.replace("idFornecedor,", "").concat(" WHERE idFornecedor = ?");
+    private final String sqlUpdate =    "UPDATE fornecedor\n" + //
+                                        "SET\n" + //
+                                        "\tnomeFantasia = ?,\n" + //
+                                        "    razaoSocial = ?,\n" + //
+                                        "    email = ?,\n" + //
+                                        "    telefone = ?,\n" + //
+                                        "    cnpj = ?\n" + //
+                                        "WHERE idFornecedor = ?";
 
     @FXML
     private Button btnAdd;
@@ -87,10 +94,10 @@ public class FornecedoresController extends OpcaoDoMenu{
         String telefone = txtTelefone.getText();
         String cnpj = txtCnpj.getText();
 
-        boolean sucesso = false;
+        boolean sucesso;
         if (btnAdd.getText().equals("Update")) {
             btnAdd.setText("Adicionar");
-            //sucesso = DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
+            sucesso = DatabaseManager.executarUpdate(sqlUpdate, fantasia, razao, email, telefone, cnpj, txtId.getText());
         } else {
             sucesso = DatabaseManager.executarUpdate(sqlInsert, fantasia, razao, email, telefone, cnpj, cnpj);
         }
@@ -106,11 +113,24 @@ public class FornecedoresController extends OpcaoDoMenu{
         }
 
         btnAdd.setText("Update");
+        String sql = sqlSelect.replace("idFornecedor,", "").concat(" WHERE idFornecedor = " + txtId.getText());
+        try(ResultSet res = DatabaseManager.executarConsulta(sql)) {
+            if (res.next()) {
+                String fantasia = res.getString("nomeFantasia");
+                String razao = res.getString("razaoSocial");
+                String email = res.getString("email");
+                String telefone = res.getString("telefone");
+                String cnpj = res.getString("cnpj");
 
-        //try(ResultSet res = DatabaseManager.executarConsulta(sqlUpdate)) {
-
-        //}
-
+                txtNomeFantasia.setText(fantasia);
+                txtRazaoSocial.setText(razao);
+                txtEmail.setText(email);
+                txtTelefone.setText(telefone);
+                txtCnpj.setText(cnpj);  
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
