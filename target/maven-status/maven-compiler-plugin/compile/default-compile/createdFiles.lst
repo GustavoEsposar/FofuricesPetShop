@@ -8,6 +8,7 @@ module-info.class
 dev\gustavoesposar\model\Login.class
 dev\gustavoesposar\controller\LoginsController.class
 dev\gustavoesposar\controller\LoginController.class
+dev\gustavoesposar\utils\GeradorPDF.class
 dev\gustavoesposar\controller\FornecedoresController.class
 dev\gustavoesposar\controller\RacasController.class
 dev\gustavoesposar\App.class

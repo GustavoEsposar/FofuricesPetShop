@@ -4,6 +4,7 @@ module dev.gustavoesposar {
     requires java.sql;
     requires javafx.graphics;
     requires bcrypt;
+    requires org.apache.pdfbox;
 
     opens dev.gustavoesposar.controller to javafx.fxml;
     opens dev.gustavoesposar.controller.abstracts to javafx.fxml;
