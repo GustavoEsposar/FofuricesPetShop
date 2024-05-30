@@ -113,12 +113,16 @@ public class LoginsController extends OpcaoDoMenu{
 
     @FXML
     private void remover(ActionEvent event) {
-        String id = txtId.getText();
-
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
-
-        processarResultado(sucesso);
-        restaurarValoresVariaveis();
+        try {
+            String id = txtId.getText();
+    
+            boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
+    
+            processarResultado(sucesso);
+            restaurarValoresVariaveis();
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        }
     }
 
     @Override

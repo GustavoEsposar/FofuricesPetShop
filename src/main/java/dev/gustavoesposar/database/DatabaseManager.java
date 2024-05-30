@@ -40,7 +40,7 @@ public class DatabaseManager {
             DatabaseManager.fecharConexao();
             return res > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
     }
