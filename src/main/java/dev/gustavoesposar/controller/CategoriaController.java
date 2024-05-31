@@ -45,10 +45,15 @@ public final class CategoriaController extends OpcaoDoMenu {
     private void adicionarCategoria() {
         String nome = txtAdd.getText();
 
-        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, nome);
-
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+        try {
+            if (DatabaseManager.executarUpdate(sqlInsert, nome, nome)) {
+                atualizarTabela();
+            }
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     protected void atualizarTabela() {
@@ -66,7 +71,7 @@ public final class CategoriaController extends OpcaoDoMenu {
 
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro(e.toString());
         }
 
         tblCategorias.setItems(categoriasList);
@@ -76,9 +81,15 @@ public final class CategoriaController extends OpcaoDoMenu {
     private void removerCategoria() {
         String id = txtRm.getText();
 
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
-
-        super.processarResultado(sucesso);
+        try {
+            if (DatabaseManager.executarUpdate(sqlDelete, id)) {
+                atualizarTabela();
+            }
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     @FXML

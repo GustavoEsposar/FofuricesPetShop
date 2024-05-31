@@ -45,20 +45,19 @@ public class DatabaseManager {
         }
     }
 
-    public static boolean executarUpdate(String sql, BigDecimal valor, String... params) {
-        try {
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            statement.setBigDecimal(1, valor);
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 2, params[i]);
-            }
-            int res = statement.executeUpdate();
-            DatabaseManager.fecharConexao();
-            return res > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public static boolean executarUpdate(String sql, BigDecimal valor, String... params) throws SQLException {
+        boolean sucesso = false;
+
+        PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+        statement.setBigDecimal(1, valor);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 2, params[i]);
         }
+        int res = statement.executeUpdate();
+        DatabaseManager.fecharConexao();
+
+        if (res > 0) sucesso = true;      
+        return sucesso;
     }
 
     public static ResultSet executarConsulta(String sql) throws SQLException {
