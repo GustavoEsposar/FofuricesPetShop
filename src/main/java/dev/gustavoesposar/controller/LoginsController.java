@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Login;
+import dev.gustavoesposar.utils.AutenticacaoEmail;
 import dev.gustavoesposar.utils.AutenticacaoSenha;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,7 +69,7 @@ public class LoginsController extends OpcaoDoMenu{
     private void adicionar(ActionEvent event) {        
         try {   
             if (senhasForamPreenchidas(txtSenha.getText(), txtSenhaConfirmar.getText())) {
-                String email = txtEmail.getText();
+                String email = AutenticacaoEmail.verificarEmailCorreto(txtEmail.getText());
                 String senha = txtSenha.getText();
                 if (btnAdd.getText().equals("Update")) {
                     btnAdd.setText("Adicionar");
