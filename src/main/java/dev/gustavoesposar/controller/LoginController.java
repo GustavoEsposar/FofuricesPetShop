@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
-import dev.gustavoesposar.utils.PasswordUtil;
+import dev.gustavoesposar.utils.AutenticacaoSenha;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -31,7 +31,7 @@ public final class LoginController {
 
         try(ResultSet res = DatabaseManager.executarConsulta(sqlConsultarSenha, email)) {
 
-            if(res.next() && PasswordUtil.checkPassword(senha, res.getString("senha"))) {
+            if(res.next() && AutenticacaoSenha.autenticarSenha(senha, res.getString("senha"))) {
                     atualizarSceneMenu();
             } else {
                 throw new IllegalArgumentException("Email ou senha incorretos");

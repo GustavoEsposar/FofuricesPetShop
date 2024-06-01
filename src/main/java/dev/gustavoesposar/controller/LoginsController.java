@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Login;
-import dev.gustavoesposar.utils.PasswordUtil;
+import dev.gustavoesposar.utils.AutenticacaoSenha;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -65,27 +65,24 @@ public class LoginsController extends OpcaoDoMenu{
     private PasswordField txtSenhaConfirmar;
 
     @FXML
-    private void adicionar(ActionEvent event) {
-        String email = txtEmail.getText();
-        String senha = txtSenha.getText();
-        boolean sucesso;
-
-        try {
-            if (senhasForamPreenchidas(txtSenha.getText(), txtSenhaConfirmar.getText()) & txtSenha.getText().equals(txtSenhaConfirmar.getText())) {
+    private void adicionar(ActionEvent event) {        
+        try {   
+            if (senhasForamPreenchidas(txtSenha.getText(), txtSenhaConfirmar.getText())) {
+                String email = txtEmail.getText();
+                String senha = txtSenha.getText();
                 if (btnAdd.getText().equals("Update")) {
                     btnAdd.setText("Adicionar");
-                    sucesso = DatabaseManager.executarUpdate(sqlUpdate, email, PasswordUtil.hashPassword(senha), txtId.getText());
+                    DatabaseManager.executarUpdate(sqlUpdate, email, AutenticacaoSenha.gerarHash(senha), txtId.getText());
                 } else {
-                    sucesso = DatabaseManager.executarUpdate(sqlInsert, email, PasswordUtil.hashPassword(senha), email);
+                    DatabaseManager.executarUpdate(sqlInsert, email, AutenticacaoSenha.gerarHash(senha), email);
+                    atualizarTabela();
+                    restaurarValoresVariaveis();
                 }
-
-                processarResultado(sucesso);
-                restaurarValoresVariaveis();
-            } else {
-                throw new IllegalArgumentException("As senhas não coincidem");
             }
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
         } catch (Exception e) {
-            super.janelaDeErro(e.toString());
+            janelaDeErro(e.toString());
         }
     }
 
@@ -104,7 +101,7 @@ public class LoginsController extends OpcaoDoMenu{
                 txtSenhaConfirmar.setText(null);
                 btnAdd.setText("Update");
             } else {
-                throw new IllegalArgumentException("ID não encontrado na base de dados");
+                throw new IllegalArgumentException("Verifique o ID informado!");
             }
         } catch(Exception e) {
             janelaDeErro(e.toString());
@@ -115,13 +112,12 @@ public class LoginsController extends OpcaoDoMenu{
     private void remover(ActionEvent event) {
         try {
             String id = txtId.getText();
-    
-            boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, id);
-    
-            processarResultado(sucesso);
-            restaurarValoresVariaveis();
+            DatabaseManager.executarUpdate(sqlDelete, id);
+            atualizarTabela();
         } catch (Exception e) {
             janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
         }
     }
 
@@ -138,7 +134,7 @@ public class LoginsController extends OpcaoDoMenu{
                 loginsList.add(login);
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao obter registros no banco");
         }
 
         tbl.setItems(loginsList);
@@ -153,8 +149,30 @@ public class LoginsController extends OpcaoDoMenu{
     }
 
     private boolean senhasForamPreenchidas(String senha, String senhaConfirmar) {
-        return  (senha != null & senhaConfirmar != null) && (!senha.equals("") & !senhaConfirmar.equals(""));
+        saoSenhasNaoNulas(senha, senhaConfirmar);
+        saoSenhasNaoVazias(senha, senhaConfirmar);
+        saoSenhasIguais(senha, senhaConfirmar);
+        AutenticacaoSenha.ehSenhaSegura(senha);
+        return true;
+    } 
+
+    private void saoSenhasNaoNulas(String senha, String senhaConfirmar) {
+        if (senha == null || senhaConfirmar == null) {
+            throw new NullPointerException("Uma ou ambas as senhas são nulas.");
+        }
     }
+
+    private void saoSenhasNaoVazias(String senha, String senhaConfirmar) {
+        if (senha.isEmpty() || senhaConfirmar.isEmpty()) {
+            throw new IllegalArgumentException("Uma ou ambas as senhas estão vazias.");
+        }
+    }
+
+    private void saoSenhasIguais(String senha, String senhaConfirmar) {
+        if (!senha.equals(senhaConfirmar)) {
+            throw new IllegalArgumentException("As senhas não são iguais.");
+        }
+    }    
 
     @FXML
     public void initialize() {

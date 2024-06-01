@@ -16,22 +16,7 @@ public abstract class OpcaoDoMenu {
         }
     }
 
-    protected void processarResultado(boolean sucesso) {
-        if (sucesso) {
-            atualizarTabela();
-        } else {
-            janelaErroDeInsercao();
-        }
-    }
-
     protected abstract void atualizarTabela();
-
-    private void janelaErroDeInsercao() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro de inserção");
-        alert.setHeaderText("O nome fornecido já existe no banco de dados");
-        alert.showAndWait();
-    }
 
     protected void janelaDeErro(String erro) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
