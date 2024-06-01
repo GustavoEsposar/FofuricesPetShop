@@ -88,26 +88,31 @@ public final class PetsController extends OpcaoDoMenu {
     private TextField txtId;
 
     @FXML
-    private void adicionar(ActionEvent event) {
-        String raca = boxRaca.getValue().substring(boxRaca.getValue().indexOf(" ") + 1);
-        String fornecedor = boxFornecedor.getValue();
-        BigDecimal valor = new BigDecimal(txtAdd.getText());
+    private void adicionar(ActionEvent event) {        
+        try {
+            String raca = boxRaca.getValue().substring(boxRaca.getValue().indexOf(" ") + 1);
+            String fornecedor = boxFornecedor.getValue();
+            BigDecimal valor = new BigDecimal(txtAdd.getText());
 
-        boolean sucesso;
-        if (btnAdd.getText().equals("Update")) {
-            btnAdd.setText("Adicionar");
-            sucesso = DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
-        } else {
-            sucesso = DatabaseManager.executarUpdate(sqlInsert, valor, raca, fornecedor);
-        }
-        
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+            if (btnAdd.getText().equals("Update")) {
+                btnAdd.setText("Adicionar");
+                DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
+            } else {
+                DatabaseManager.executarUpdate(sqlInsert, valor, raca, fornecedor);
+            }
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }        
     }
 
     @FXML
     private void atualizar(ActionEvent event) {
-        if (btnAdd.getText().equals("Update")) {
+        if (btnAdd.getText().equals("Update") | txtId.getText() == null) {
             return;
         }
 
@@ -127,18 +132,22 @@ public final class PetsController extends OpcaoDoMenu {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro(e.toString());
         }
     }
 
     @FXML
     private void remover(ActionEvent event) {
-        String idSelecionado = txtId.getText();
-
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idSelecionado);
-
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+        
+        try {
+            String idSelecionado = txtId.getText();
+            DatabaseManager.executarUpdate(sqlDelete, idSelecionado);
+            atualizarTabela();
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     @Override
@@ -159,7 +168,7 @@ public final class PetsController extends OpcaoDoMenu {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro(e.toString());
         }
 
         tbl.setItems(petsList);
@@ -192,7 +201,7 @@ public final class PetsController extends OpcaoDoMenu {
             });
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro(e.toString());
         }
     }
 
@@ -212,7 +221,7 @@ public final class PetsController extends OpcaoDoMenu {
             });
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro(e.toString());
         }
     }
 

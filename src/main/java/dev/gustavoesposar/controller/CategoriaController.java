@@ -43,9 +43,8 @@ public final class CategoriaController extends OpcaoDoMenu {
 
     @FXML
     private void adicionarCategoria() {
-        String nome = txtAdd.getText();
-
         try {
+            String nome = txtAdd.getText();
             if (DatabaseManager.executarUpdate(sqlInsert, nome, nome)) {
                 atualizarTabela();
             }
@@ -79,9 +78,8 @@ public final class CategoriaController extends OpcaoDoMenu {
 
     @FXML
     private void removerCategoria() {
-        String id = txtRm.getText();
-
         try {
+            String id = txtRm.getText();
             if (DatabaseManager.executarUpdate(sqlDelete, id)) {
                 atualizarTabela();
             }
