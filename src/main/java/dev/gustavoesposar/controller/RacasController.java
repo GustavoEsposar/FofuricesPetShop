@@ -60,14 +60,18 @@ public final class RacasController extends OpcaoDoMenu {
 
     @FXML
     private void adicionarRaca(ActionEvent event) {
-        String nome = txtAdd.getText();
-        String especieSelecionada = boxEspecies.getValue();
-
-        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, especieSelecionada, nome);
-
-        super.processarResultado(sucesso);
-
-        restaurarValoresVariaveis();
+        try {
+            String nome = txtAdd.getText();
+            String especieSelecionada = boxEspecies.getValue();
+            DatabaseManager.executarUpdate(sqlInsert, nome, especieSelecionada, nome);
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     protected void atualizarTabela() {
@@ -88,7 +92,7 @@ public final class RacasController extends OpcaoDoMenu {
 
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao obter registros no banco");
         }
 
         tblRacas.setItems(racasList);
@@ -101,11 +105,17 @@ public final class RacasController extends OpcaoDoMenu {
 
     @FXML
     private void removerRaca(ActionEvent event) {
-        String idRaca = txtRm.getText();
-
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idRaca);
-
-        super.processarResultado(sucesso);
+        try {
+            String idRaca = txtRm.getText();
+            DatabaseManager.executarUpdate(sqlDelete, idRaca);
+            atualizarEspecies();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        } 
     }
 
     private void atualizarEspecies() {
@@ -122,7 +132,7 @@ public final class RacasController extends OpcaoDoMenu {
             boxEspecies.setValue("Espécie");
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao obter espécies do banco");
         }
     }
 

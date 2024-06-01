@@ -44,12 +44,18 @@ public final class MarcasController extends OpcaoDoMenu {
 
     @FXML
     private void adicionar(ActionEvent event) {
-        String nome = txtAdd.getText();
 
-        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nome, nome);
-
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+        try {
+            String nome = txtAdd.getText();
+            DatabaseManager.executarUpdate(sqlInsert, nome, nome);
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        } 
     }
 
     @Override
@@ -67,18 +73,25 @@ public final class MarcasController extends OpcaoDoMenu {
 
             DatabaseManager.fecharConexao();
         }catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao obter registros da tabela no banco");
         }
         tbl.setItems(marcasList);
     }
 
     @FXML
     private void remover(ActionEvent event) {
-        String idMarca = txtRm.getText();
 
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idMarca);
-
-        super.processarResultado(sucesso);
+        try {
+            String idMarca = txtRm.getText();
+            DatabaseManager.executarUpdate(sqlDelete, idMarca);
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        } 
     }
 
     @FXML

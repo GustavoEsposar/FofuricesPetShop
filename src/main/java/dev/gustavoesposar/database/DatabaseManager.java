@@ -30,19 +30,18 @@ public class DatabaseManager {
         }
     }
 
-    public static boolean executarUpdate(String sql, String... params) {
-        try {
-            PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 1, params[i]);
-            }
-            int res = statement.executeUpdate();
-            DatabaseManager.fecharConexao();
-            return res > 0;
-        } catch (Exception e) {
-            //e.printStackTrace();
-            return false;
+    public static boolean executarUpdate(String sql, String... params) throws SQLException {
+        boolean sucesso = false;
+
+        PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 1, params[i]);
         }
+        int res = statement.executeUpdate();
+        DatabaseManager.fecharConexao();
+        if (res > 0)
+            sucesso = true;
+        return sucesso;
     }
 
     public static boolean executarUpdate(String sql, BigDecimal valor, String... params) throws SQLException {
@@ -56,7 +55,8 @@ public class DatabaseManager {
         int res = statement.executeUpdate();
         DatabaseManager.fecharConexao();
 
-        if (res > 0) sucesso = true;      
+        if (res > 0)
+            sucesso = true;
         return sucesso;
     }
 

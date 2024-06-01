@@ -88,22 +88,27 @@ public class FornecedoresController extends OpcaoDoMenu{
 
     @FXML
     private void adicionar(ActionEvent event) {
-        String fantasia = txtNomeFantasia.getText();
-        String razao = txtRazaoSocial.getText();
-        String email = txtEmail.getText();
-        String telefone = txtTelefone.getText();
-        String cnpj = txtCnpj.getText();
+        try {
+            String fantasia = txtNomeFantasia.getText();
+            String razao = txtRazaoSocial.getText();
+            String email = txtEmail.getText();
+            String telefone = txtTelefone.getText();
+            String cnpj = txtCnpj.getText();
 
-        boolean sucesso;
-        if (btnAdd.getText().equals("Update")) {
-            btnAdd.setText("Adicionar");
-            sucesso = DatabaseManager.executarUpdate(sqlUpdate, fantasia, razao, email, telefone, cnpj, txtId.getText());
-        } else {
-            sucesso = DatabaseManager.executarUpdate(sqlInsert, fantasia, razao, email, telefone, cnpj, cnpj);
-        }
-
-        processarResultado(sucesso);
-        restaurarValoresVariaveis();
+            if (btnAdd.getText().equals("Update")) {
+                btnAdd.setText("Adicionar");
+                DatabaseManager.executarUpdate(sqlUpdate, fantasia, razao, email, telefone, cnpj, txtId.getText());
+            } else {
+                DatabaseManager.executarUpdate(sqlInsert, fantasia, razao, email, telefone, cnpj, cnpj);
+            }
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }      
     }
 
     @FXML
@@ -129,18 +134,20 @@ public class FornecedoresController extends OpcaoDoMenu{
                 txtCnpj.setText(cnpj);  
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro de comunicação com o banco de dados");
         }
     }
 
     @FXML
     private void remover(ActionEvent event) {
-        String idSelecionado = txtId.getText();
-
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idSelecionado);
-
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+        try {
+            DatabaseManager.executarUpdate(sqlDelete, txtId.getText());
+            atualizarTabela();
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     @Override
@@ -160,7 +167,7 @@ public class FornecedoresController extends OpcaoDoMenu{
                 fornList.add(fornecedor);
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Problema ao comunicar-se com o banco de dados para atualizar a tabela");
         }
         tbl.setItems(fornList);
     }

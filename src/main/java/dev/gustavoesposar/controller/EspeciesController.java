@@ -44,12 +44,18 @@ public final class EspeciesController extends OpcaoDoMenu{
 
     @FXML
     private void adicionarEspecie(ActionEvent event) {
-        String nomeEspecie = txtAddEspecie.getText();
-        
-        boolean sucesso = DatabaseManager.executarUpdate(sqlInsert, nomeEspecie, nomeEspecie);
-        
-        super.processarResultado(sucesso);
-        restaurarValoresVariaveis();
+
+        try {
+            String nomeEspecie = txtAddEspecie.getText();
+            DatabaseManager.executarUpdate(sqlInsert, nomeEspecie, nomeEspecie);
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        } 
     }
     
     protected void atualizarTabela() {
@@ -67,7 +73,7 @@ public final class EspeciesController extends OpcaoDoMenu{
 
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao obter registros da tabela no banco");
         }
 
         tblEspecies.setItems(especiesList);
@@ -75,11 +81,18 @@ public final class EspeciesController extends OpcaoDoMenu{
 
     @FXML
     private void removerEspecie(ActionEvent event) {
-        String idEspecie = txtRmEspecie.getText();
-        
-        boolean sucesso = DatabaseManager.executarUpdate(sqlDelete, idEspecie);
-        
-        super.processarResultado(sucesso);
+
+        try {
+            String idEspecie = txtRmEspecie.getText();
+            DatabaseManager.executarUpdate(sqlDelete, idEspecie);
+            atualizarTabela();
+        } catch (NullPointerException | NumberFormatException e) {
+            janelaDeErro("Preencha os campos corretamente");
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
+        } finally {
+            restaurarValoresVariaveis();
+        }
     }
 
     @FXML

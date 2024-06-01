@@ -132,7 +132,7 @@ public final class PetsController extends OpcaoDoMenu {
             }
 
         } catch (SQLException e) {
-            janelaDeErro(e.toString());
+            janelaDeErro("Erro de comunicação com o banco de dados");
         }
     }
 
@@ -201,7 +201,7 @@ public final class PetsController extends OpcaoDoMenu {
             });
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            janelaDeErro(e.toString());
+            janelaDeErro("Erro ao consultar opções de raça");
         }
     }
 
@@ -221,7 +221,7 @@ public final class PetsController extends OpcaoDoMenu {
             });
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
-            janelaDeErro(e.toString());
+            janelaDeErro("Erro ao consultar opções de fornecedores");
         }
     }
 
