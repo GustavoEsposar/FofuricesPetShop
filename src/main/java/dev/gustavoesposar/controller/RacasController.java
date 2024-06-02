@@ -151,9 +151,9 @@ public final class RacasController extends OpcaoDoMenu {
     }
 
     private void ajustarLarguraColunas() {
-        colIdRaca.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
-        colEspecie.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
-        colNome.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.3));
+        colIdRaca.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.33));
+        colEspecie.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.33));
+        colNome.prefWidthProperty().bind(tblRacas.widthProperty().multiply(0.33));
     }
 
 }
