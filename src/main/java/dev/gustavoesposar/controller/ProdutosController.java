@@ -1,12 +1,18 @@
 package dev.gustavoesposar.controller;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Produto;
+import dev.gustavoesposar.model.Raca;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -18,6 +24,15 @@ public class ProdutosController extends OpcaoDoMenu {
     private final String CATEGORIA_DEFAULT = "Selecionar Categoria";
     private final String MARCA_DEFAULT = "Selecionar Marca";
     private final String SQL_DELETE = "DELETE FROM Produto WHERE idProduto = ? LIMIT 1;";
+    private final String SQL_SELECT_PRODUTO = "SELECT \n" + //
+                "\tidProduto,\n" + //
+                "    categoria.nome 'categoria',\n" + //
+                "    marca.nome 'marca',\n" + //
+                "    produto.nome 'nome',\n" + //
+                "    precoUnitario 'preco'\n" + //
+                "FROM produto\n" + //
+                "JOIN categoria on categoria.idCategoria = produto.Categoria_idCategoria\n" + //
+                "JOIN marca on marca.idMarca = produto.Marca_idMarca";
 
     @FXML
     private ChoiceBox<String> boxCategoria;
@@ -68,7 +83,7 @@ public class ProdutosController extends OpcaoDoMenu {
 
     @FXML
     private void atualizar(ActionEvent event) {
-
+        
     }
 
     @FXML
@@ -86,7 +101,25 @@ public class ProdutosController extends OpcaoDoMenu {
 
     @Override
     protected void atualizarTabela() {
+        ObservableList<Produto> produtosList = FXCollections.observableArrayList();
 
+        try (ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT_PRODUTO)) {
+            while (res.next()) {
+                int id = res.getInt("idProduto");
+                String cat = res.getString("categoria");
+                String marca = res.getString("marca");
+                String nome = res.getString("nome");
+                BigDecimal preco = res.getBigDecimal("preco");
+                
+                produtosList.add(new Produto(id, cat, marca, nome, preco));
+            }
+
+            DatabaseManager.fecharConexao();
+        } catch (SQLException e) {
+            janelaDeErro("Erro ao obter registros no banco");
+        }
+
+        tbl.setItems(produtosList);
     }
 
     @Override
