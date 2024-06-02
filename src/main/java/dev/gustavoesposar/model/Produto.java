@@ -7,17 +7,19 @@ public final class Produto {
     private String categoria;
     private String marca;
     private String nome;
-    private BigDecimal precoUnitario;
+    private BigDecimal preco;
+    private String fornecedor;
 
     public Produto() {
     }
 
-    public Produto(int idProduto, String categoria, String marca, String nome, BigDecimal precoUnitario) {
+    public Produto(int idProduto, String categoria, String marca, String nome, BigDecimal precoUnitario, String fornecedor) {
         this.idProduto = idProduto;
         this.categoria = categoria;
         this.marca = marca;
         this.nome = nome;
-        this.precoUnitario = precoUnitario;
+        this.preco = precoUnitario;
+        this.fornecedor = fornecedor;
     }
 
     public int getIdProduto() {
@@ -52,11 +54,19 @@ public final class Produto {
         this.nome = nome;
     }
 
-    public BigDecimal getPrecoUnitario() {
-        return precoUnitario;
+    public BigDecimal getPreco() {
+        return preco;
     }
 
-    public void setPrecoUnitario(BigDecimal precoUnitario) {
-        this.precoUnitario = precoUnitario;
+    public void setPreco(BigDecimal precoUnitario) {
+        this.preco = precoUnitario;
+    }
+
+    public void setFornecedor(String fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public String getFornecedor() {
+        return fornecedor;
     }
 }

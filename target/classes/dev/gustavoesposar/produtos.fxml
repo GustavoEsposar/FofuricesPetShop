@@ -55,6 +55,7 @@
             <TableColumn fx:id="colMarca" text="Marca" />
             <TableColumn fx:id="colNome" text="Nome" />
             <TableColumn fx:id="colPreco" text="Preço" />
+            <TableColumn fx:id="colFornecedor" text="Fornecedor" />
          </columns>
       </TableView>
       <Button fx:id="btnUp" layoutX="1026.0" layoutY="75.0" mnemonicParsing="false" onAction="#atualizar" prefWidth="90.0" style="-fx-background-color: ad764a;" text="Atualizar" AnchorPane.leftAnchor="1026.0">
@@ -69,5 +70,6 @@
             <Font size="16.0" />
          </font>
       </TextField>
+      <ChoiceBox fx:id="boxFornecedor" layoutX="254.2" layoutY="70.0" prefHeight="35.0" prefWidth="315.0" AnchorPane.leftAnchor="365.0" AnchorPane.topAnchor="25.0" />
    </children>
 </AnchorPane>

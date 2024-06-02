@@ -1,7 +1,5 @@
 package dev.gustavoesposar.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -77,9 +75,7 @@ public final class RacasController extends OpcaoDoMenu {
     protected void atualizarTabela() {
         ObservableList<Raca> racasList = FXCollections.observableArrayList();
 
-        try (Connection conn = DatabaseManager.getConexao();
-                PreparedStatement statement = conn.prepareStatement(sqlSelect);
-                ResultSet resultSet = statement.executeQuery()) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
 
             while (resultSet.next()) {
                 int idRaca = resultSet.getInt("idRaca");
