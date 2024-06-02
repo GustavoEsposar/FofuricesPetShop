@@ -52,7 +52,7 @@ public final class MenuController {
 
     @FXML
     private void atualizarSceneProdutos() {
-        //atualizarScene("produtos", "Produtos");
+        atualizarScene("produtos", "Produtos");
     }
 
     @FXML
