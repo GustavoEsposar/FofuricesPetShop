@@ -63,6 +63,27 @@ public class ProdutosController extends OpcaoDoMenu {
     "(SELECT idCategoria FROM Categoria WHERE nome = ?) cat,\n" + //
     "(SELECT idMarca FROM Marca WHERE nome = ?) marca,\n" + //
     "(SELECT idFornecedor FROM Fornecedor WHERE nomeFantasia = ?) forn";
+    private static final String SQL_UPDATE = 
+    "UPDATE produto p \n" + //
+    "SET\n" + //
+    "   p.precoUnitario = ?, \n" + //
+    "   p.Marca_idMarca = (\n" + //
+    "\t   SELECT idMarca\n" + //
+    "\t   FROM marca \n" + //
+    "\t   WHERE nome = ? \n" + //
+    "   ),\n" + //
+    "   p.Categoria_idCategoria = (\n" + //
+    "\t\tSELECT idCategoria\n" + //
+    "        from categoria\n" + //
+    "        where nome = ?\n" + //
+    "   ),\n" + //
+    "   p.nome = ?,\n" + //
+    "   p.Fornecedor_idFornecedor = ( \n" + //
+    "\t   SELECT idFornecedor \n" + //
+    "\t   FROM fornecedor \n" + //
+    "\t   WHERE nomeFantasia = ? \n" + //
+    "   )\n" + //
+    "WHERE p.idProduto = ?";
     
     @FXML
     private ChoiceBox<String> boxCategoria;
@@ -122,11 +143,12 @@ public class ProdutosController extends OpcaoDoMenu {
             String forn = boxFornecedor.getValue();
 
             if (btnAdd.getText().equals("Update")) {
-
+                DatabaseManager.executarUpdate(SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
+                btnAdd.setText("Adicionar");
             } else {
                 DatabaseManager.executarUpdate(SQL_INSERT, preco, nome, cat, marca, forn);
-                restaurarValoresVariaveis();
             }
+            restaurarValoresVariaveis();
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente!");
@@ -137,7 +159,24 @@ public class ProdutosController extends OpcaoDoMenu {
 
     @FXML
     private void atualizar(ActionEvent event) {
-        
+        if (btnAdd.getText().equals("Update") | txtId.getText() == null) {
+            return;
+        }
+
+        btnAdd.setText("Update");
+        final String sql = SQL_SELECT_PRODUTO.replace("idProduto,", " ").concat(" WHERE idProduto = " + txtId.getText());
+
+        try (ResultSet res = DatabaseManager.executarConsulta(sql)) {
+            if (res.next()) {
+                boxFornecedor.setValue(res.getString("Fornecedor"));
+                boxCategoria.setValue(res.getString("categoria"));
+                boxMarca.setValue(res.getString("marca"));
+                txtNome.setText(res.getString("nome"));
+                txtPreco.setText(res.getString("preco"));
+            }   
+        } catch (SQLException e) {
+            janelaDeErro("Erro de comunicação com o banco de dados ao atualizar.");
+        }
     }
 
     @FXML
@@ -276,10 +315,10 @@ public class ProdutosController extends OpcaoDoMenu {
     private void ajustarLarguraColunas() {
         colIdProduto.prefWidthProperty().bind(tbl.widthProperty().multiply(0.05));
         colCategoria.prefWidthProperty().bind(tbl.widthProperty().multiply(0.15));
-        colMarca.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
+        colMarca.prefWidthProperty().bind(tbl.widthProperty().multiply(0.15));
         colNome.prefWidthProperty().bind(tbl.widthProperty().multiply(0.4));
         colPreco.prefWidthProperty().bind(tbl.widthProperty().multiply(0.1));
-        colFornecedor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.1));
+        colFornecedor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.15));
     }
 
 }
