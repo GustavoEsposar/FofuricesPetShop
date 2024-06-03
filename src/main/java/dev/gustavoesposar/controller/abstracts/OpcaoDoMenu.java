@@ -12,7 +12,7 @@ public abstract class OpcaoDoMenu {
         try {
             App.setNewScene("menu", "Menu de Gerenciamento");
         } catch (IOException e) {
-            e.printStackTrace();
+            janelaDeErro("Erro ao voltar para o Menu princiapl");
         }
     }
 
