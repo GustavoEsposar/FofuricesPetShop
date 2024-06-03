@@ -3,6 +3,7 @@ package dev.gustavoesposar.controller;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
@@ -167,6 +168,7 @@ public class ProdutosController extends OpcaoDoMenu {
 
     @FXML
     private void adicionar(ActionEvent event) {
+        String id = "";
         try {
             String cat = boxCategoria.getValue();
             String marca = boxMarca.getValue();
@@ -176,20 +178,18 @@ public class ProdutosController extends OpcaoDoMenu {
             String qtde = txtQtde.getText();
             String qtdeMin = txtQtdeMinima.getText();
             String qtdeMax = txtQtdeMaxima.getText();
-
             if (btnAdd.getText().equals("Update")) {
+                DatabaseManager.executarUpdate(SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText()); //ordem invertida para simular "ACID"
                 DatabaseManager.executarUpdate(SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
-                DatabaseManager.executarUpdate(SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText());
                 btnAdd.setText("Adicionar");
             } else {
-                String id = Integer
-                        .toString(DatabaseManager.executarUpdateLastId(SQL_INSERT, preco, nome, cat, marca, forn));
+                id = Integer.toString(DatabaseManager.executarUpdateLastId(SQL_INSERT, preco, nome, cat, marca, forn));
                 DatabaseManager.executarUpdate(SQL_INSERT_ESTOQUE, id, qtde, qtdeMin, qtdeMax);
             }
             restaurarValoresVariaveis();
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
-            janelaDeErro("Preencha os campos corretamente!");
+            janelaDeErro("Preencha os campos necessários corretamente!");
         } catch (Exception e) {
             janelaDeErro(e.toString());
         }
