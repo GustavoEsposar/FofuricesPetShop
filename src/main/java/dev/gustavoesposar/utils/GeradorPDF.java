@@ -36,7 +36,13 @@ public class GeradorPDF {
                 for (int i = 1; i <= numColumns; i++) {
                     String cellValue = resultSet.getString(i);
                     row[i - 1] = cellValue;
-                    columnWidths[i - 1] = Math.max(columnWidths[i - 1], cellValue.length() * 7);
+                    // Verifica se o tipo de valor da coluna é numérico
+                    if (metaData.getColumnType(i) == java.sql.Types.NUMERIC) {
+                        // Largura mínima para valores numéricos
+                        columnWidths[i - 1] = Math.max(columnWidths[i - 1], Math.max(cellValue.length(), metaData.getColumnName(i).length()) * 7);
+                    } else {
+                        columnWidths[i - 1] = Math.max(columnWidths[i - 1], Math.max(cellValue.length(), metaData.getColumnName(i).length()) * 7);
+                    }
                 }
                 rows.add(row);
             }
