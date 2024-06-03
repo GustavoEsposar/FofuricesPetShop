@@ -39,7 +39,7 @@ public class ProdutosController extends OpcaoDoMenu {
             "JOIN categoria on categoria.idCategoria = produto.Categoria_idCategoria\n" + //
             "JOIN marca on marca.idMarca = produto.Marca_idMarca\n" + //
             "JOIN fornecedor on fornecedor.idFornecedor = produto.Fornecedor_idFornecedor\n" + //
-            "Left JOIN estoque on estoque.Produto_idProduto = produto.idProduto";
+            "Left JOIN estoque on estoque.Produto_idProduto = produto.idProduto ORDER BY categoria.nome, marca.nome";
     private static final String SQL_SELECT_CATEGORIA = "SELECT \n" + //
             "\tnome\n" + //
             "FROM categoria\n" + //
@@ -185,27 +185,25 @@ private void adicionar(ActionEvent event) {
         conn = DatabaseManager.getConexao();
         
         if (btnAdd.getText().equals("Update")) {
-            DatabaseManager.executarUpdateTransacao(conn, SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText());
-            DatabaseManager.executarUpdateTransacao(conn, SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
+            conn.setAutoCommit(true);
+            DatabaseManager.executarUpdate(SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText());
+            DatabaseManager.executarUpdate(SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
             btnAdd.setText("Adicionar");
         } else {
             id = Integer.toString(DatabaseManager.executarUpdateLastIdTransacao(conn, SQL_INSERT, preco, nome, cat, marca, forn));
             DatabaseManager.executarUpdateTransacao(conn, SQL_INSERT_ESTOQUE, id, qtde, qtdeMin, qtdeMax);
+            // Confirmar a transação
+            DatabaseManager.confirmarTransacao();
         }
-        
-        // Confirmar a transação
-        DatabaseManager.confirmarTransacao();
         
         restaurarValoresVariaveis();
         atualizarTabela();
     } catch (NullPointerException | NumberFormatException e) {
-        if (conn != null) {
             try {
                 DatabaseManager.reverterTransacao();
             } catch (SQLException se) {
                 janelaDeErro("Erro ao reverter a transação: " + se.getMessage());
             }
-        }
         janelaDeErro("Preencha os campos necessários corretamente!");
     } catch (Exception e) {
         if (conn != null) {
@@ -227,7 +225,7 @@ private void adicionar(ActionEvent event) {
         }
 
         btnAdd.setText("Update");
-        final String sql = SQL_SELECT_PRODUTO.replace("idProduto,", " ")
+        final String sql = SQL_SELECT_PRODUTO.replace("idProduto,", " ").replace("ORDER BY categoria.nome, marca.nome", " ")
                 .concat(" WHERE idProduto = " + txtId.getText());
         try (ResultSet res = DatabaseManager.executarConsulta(sql)) {
             if (res.next()) {

@@ -184,7 +184,7 @@ public final class PetsController extends OpcaoDoMenu {
 
         String sql = "SELECT E.nome AS nomeEspecie, R.nome AS nomeRaca " +
                 "FROM Raca R " +
-                "JOIN Especie E ON R.Especie_idEspecie = E.idEspecie";
+                "JOIN Especie E ON R.Especie_idEspecie = E.idEspecie ORDER BY E.nome, R.nome";
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
             racasList.add(0, "Espécie Raça");
@@ -208,7 +208,7 @@ public final class PetsController extends OpcaoDoMenu {
     private void atualizarChoiceBoxFornecedores() {
         ObservableList<String> fornecedoresList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nomeFantasia FROM fornecedor")) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nomeFantasia FROM fornecedor ORDER BY nomeFantasia")) {
             fornecedoresList.add(0, "Fornecedor");
             while (resultSet.next()) {
                 String nomeFantasia = resultSet.getString("nomeFantasia");

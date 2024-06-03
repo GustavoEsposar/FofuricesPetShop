@@ -22,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public final class RacasController extends OpcaoDoMenu {
     private final String sqlSelect = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
             "FROM Raca " +
-            "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie";
+            "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie ORDER BY Raca.nome";
     private final String sqlInsert = "INSERT INTO Raca (nome, Especie_idEspecie) " +
             "SELECT ?, idEspecie FROM Especie " +
             "WHERE nome = ? " +
@@ -117,7 +117,7 @@ public final class RacasController extends OpcaoDoMenu {
     private void atualizarEspecies() {
         ObservableList<String> especiesList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nome FROM Especie")) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nome FROM Especie ORDER BY nome")) {
             especiesList.add(0, "Espécie");
             while (resultSet.next()) {
                 String nome = resultSet.getString("nome");
