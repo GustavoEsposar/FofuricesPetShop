@@ -22,6 +22,7 @@ public abstract class OpcaoDoMenu {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
         alert.setHeaderText(erro);
+        alert.setWidth(300);
         alert.showAndWait();
     }
 

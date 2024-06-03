@@ -199,21 +199,24 @@ private void adicionar(ActionEvent event) {
         restaurarValoresVariaveis();
         atualizarTabela();
     } catch (NullPointerException | NumberFormatException e) {
-            try {
-                DatabaseManager.reverterTransacao();
-            } catch (SQLException se) {
-                janelaDeErro("Erro ao reverter a transação: " + se.getMessage());
-            }
-        janelaDeErro("Preencha os campos necessários corretamente!");
+        String erroMensagem = "";
+        try {
+            DatabaseManager.reverterTransacao();
+        } catch (SQLException se) {
+            erroMensagem += "Erro ao reverter a transação: " + se.getMessage() + "\n";
+        }
+        janelaDeErro(erroMensagem + "\nPreencha os campos necessários corretamente!");
     } catch (Exception e) {
+        String erroMensagem = "";
         if (conn != null) {
             try {
                 DatabaseManager.reverterTransacao();
             } catch (SQLException se) {
-                janelaDeErro("Erro ao reverter a transação: " + se.getMessage());
+                erroMensagem += "Erro ao reverter a transação: " + se.getMessage() + "\n";
             }
         }
-        janelaDeErro(e.toString());
+        erroMensagem += e.toString();
+        janelaDeErro(erroMensagem);
     } 
 }
 
