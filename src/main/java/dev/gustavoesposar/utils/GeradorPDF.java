@@ -2,8 +2,11 @@ package dev.gustavoesposar.utils;
 
 import dev.gustavoesposar.database.DatabaseManager;
 
+import javax.swing.JFileChooser;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,14 +17,13 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 public class GeradorPDF {
-    private static String sql = "Select * from Fornecedor;";
 
-    public static void generatePDF(String dest) {
+    public static void gerarPDF(String dest, String sql) {
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
 
             PDDocument document = new PDDocument();
-            PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth())); 
+            PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth()));
             document.addPage(page);
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
@@ -30,20 +32,19 @@ public class GeradorPDF {
             contentStream.setLeading(14.5f);
             contentStream.newLineAtOffset(25, 550);
 
-             // Define larguras das colunas com base no tamanho máximo dos dados
-             float[] columnWidths = new float[]{
-                70,  // idFornecedor (11 caracteres + padding)
-                170, // nomeFantasia (45 caracteres + padding)
-                170, // razaoSocial (45 caracteres + padding)
-                200, // email (45 caracteres + padding)
-                70, // telefone (12 caracteres + padding)
-                150  // cnpj (14 caracteres + padding)
-            };
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numColumns = metaData.getColumnCount();
+
+            // Calcular a largura das colunas com base nos nomes das colunas
+            float[] columnWidths = new float[numColumns];
+            for (int i = 1; i <= numColumns; i++) {
+                columnWidths[i - 1] = metaData.getColumnName(i).length() * 7; // Ajuste o multiplicador conforme
+                                                                              // necessário
+            }
 
             // Adiciona cabeçalhos da tabela
-            int numColumns = resultSet.getMetaData().getColumnCount();
             for (int i = 1; i <= numColumns; i++) {
-                String columnName = resultSet.getMetaData().getColumnName(i);
+                String columnName = metaData.getColumnName(i);
                 contentStream.showText(columnName + " ");
                 contentStream.newLineAtOffset(columnWidths[i - 1], 0);
             }
@@ -77,7 +78,7 @@ public class GeradorPDF {
 
                     // Reescreve os cabeçalhos da tabela na nova página
                     for (int i = 1; i <= numColumns; i++) {
-                        String columnName = resultSet.getMetaData().getColumnName(i);
+                        String columnName = metaData.getColumnName(i);
                         contentStream.showText(columnName + " ");
                         contentStream.newLineAtOffset(columnWidths[i - 1], 0);
                     }
@@ -103,5 +104,24 @@ public class GeradorPDF {
             totalWidth += width;
         }
         return totalWidth;
+    }
+
+    public static String selectFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Salvar PDF");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            // Adicionar extensão .pdf se não estiver presente
+            if (!fileToSave.getAbsolutePath().endsWith(".pdf")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+            }
+            return fileToSave.getAbsolutePath();
+        }
+
+        return null;
     }
 }

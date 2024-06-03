@@ -21,7 +21,7 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Button layoutX="390.0" layoutY="146.0" mnemonicParsing="false" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Emitir" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="260.0">
+      <Button layoutX="390.0" layoutY="146.0" mnemonicParsing="false" onAction="#emitirRelatorio" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Emitir" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="260.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

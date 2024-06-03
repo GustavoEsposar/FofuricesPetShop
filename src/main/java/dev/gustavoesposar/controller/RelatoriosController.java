@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
+import dev.gustavoesposar.utils.GeradorPDF;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +14,15 @@ import javafx.scene.control.ChoiceBox;
 
 public class RelatoriosController extends OpcaoDoMenu {
     private static final String OPCAO_DEFAULT = "Selecione um Relatório";
-    private static final String SQL_SELECT = 
+    private static final String SQL_SELECT_OPCOES = 
     "select\n" + //
     "\tnome\n" + //
     "from relatorio;";
+    private static final String SQL_SELECT_OBTER_QUERY =
+    "select\n" + //
+    "\tsqlRelatorio\n" + //
+    "from relatorio\n" + //
+    "where nome = ?;";
 
     @FXML
     private ChoiceBox<String> boxRelatorios;
@@ -24,10 +30,10 @@ public class RelatoriosController extends OpcaoDoMenu {
     private void atualizarTabelaChoiceBox() {
         ObservableList<String> relatoriosList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT_OPCOES)) {
             relatoriosList.add(0, OPCAO_DEFAULT);
             while (resultSet.next()) {
-                String nome = resultSet.getString("");
+                String nome = resultSet.getString("nome");
                 relatoriosList.add(nome);
             }
 
@@ -38,12 +44,28 @@ public class RelatoriosController extends OpcaoDoMenu {
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             janelaDeErro("Erro ao consultar opções de relatórios.");
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void emitirRelatorio() {
+        
+    try(ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT_OBTER_QUERY, boxRelatorios.getValue())) {
+        if (res.next()) {
+            String sql = res.getString("sqlRelatorio");
+            GeradorPDF.gerarPDF(GeradorPDF.selectFile(), sql);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+        restaurarValoresVariaveis();
     }
 
     @Override
     protected void restaurarValoresVariaveis() {
-
+        boxRelatorios.setValue(OPCAO_DEFAULT);
     }
 
     @FXML
