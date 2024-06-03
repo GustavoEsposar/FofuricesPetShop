@@ -10,7 +10,7 @@
 
 <AnchorPane id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="570.0" styleClass="anchorPane" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.gustavoesposar.controller.MenuController">
    <children>
-      <ImageView fitHeight="659.0" fitWidth="606.0" opacity="0.24" pickOnBounds="true" preserveRatio="true" styleClass="image" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="659.0" fitWidth="606.0" layoutX="-15.0" opacity="0.24" pickOnBounds="true" preserveRatio="true" styleClass="image" AnchorPane.leftAnchor="-15.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@img/logo_petshop.png" />
          </image>
@@ -30,7 +30,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="btnRelatorio" layoutX="386.0" layoutY="289.0" mnemonicParsing="false" onAction="#atualizarSceneRelatorio" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Relatórios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="290.0">
+      <Button fx:id="btnRelatorio" layoutX="386.0" layoutY="289.0" mnemonicParsing="false" onAction="#atualizarSceneRelatorio" prefWidth="167.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Relatórios" AnchorPane.rightAnchor="201.5" AnchorPane.topAnchor="220.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

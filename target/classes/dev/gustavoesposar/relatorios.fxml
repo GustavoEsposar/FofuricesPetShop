@@ -27,7 +27,7 @@
          </font>
       </Button>
       <Separator layoutX="185.0" layoutY="54.0" prefWidth="570.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
-      <ChoiceBox fx:id="boxRelatorios" layoutX="99.0" layoutY="164.0" prefHeight="35.0" prefWidth="510.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="150.0" />
+      <ChoiceBox fx:id="boxRelatorios" layoutX="99.0" layoutY="164.0" prefHeight="50.0" prefWidth="356.25" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 20px; -fx-background-radius: 20px;" AnchorPane.leftAnchor="106.9" AnchorPane.topAnchor="150.0" />
       <Button graphicTextGap="1.0" layoutX="1218.0" layoutY="28.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 100; -fx-padding: 0 12; -fx-background-color: ad764a;" text="↩">
          <font>
             <Font size="30.0" />

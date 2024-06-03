@@ -18,6 +18,7 @@ dev\gustavoesposar\controller\CategoriaController.class
 dev\gustavoesposar\model\Marca.class
 dev\gustavoesposar\model\Especie.class
 dev\gustavoesposar\model\Pet.class
+dev\gustavoesposar\controller\RelatoriosController.class
 dev\gustavoesposar\controller\PetsController.class
 dev\gustavoesposar\model\Categoria.class
 dev\gustavoesposar\utils\AutenticacaoSenha.class

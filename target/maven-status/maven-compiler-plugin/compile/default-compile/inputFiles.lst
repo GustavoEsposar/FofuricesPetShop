@@ -2,6 +2,7 @@ A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Fornecedor.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\database\DatabaseManager.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\abstracts\OpcaoDoMenu.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\CategoriaController.java
+A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\RelatoriosController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Raca.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\utils\AutenticacaoEmail.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Marca.java

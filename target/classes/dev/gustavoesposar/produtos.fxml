@@ -17,7 +17,7 @@
             <Font size="30.0" />
          </font>
       </Button>
-      <Separator layoutX="927.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="0.0" AnchorPane.leftAnchor="927.0" AnchorPane.topAnchor="0.0" />
+      <Separator layoutX="927.0" orientation="VERTICAL" prefHeight="234.0" prefWidth="0.0" AnchorPane.leftAnchor="927.0" AnchorPane.topAnchor="0.0" />
       <TextField fx:id="txtNome" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="250.0" promptText="Digite o nome" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0">
          <font>
             <Font size="16.0" />

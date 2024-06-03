@@ -17,7 +17,7 @@
             <Font size="30.0" />
          </font>
       </Button>
-      <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="150.0" AnchorPane.leftAnchor="815.0" AnchorPane.topAnchor="0.0" />
+      <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="180.0" AnchorPane.leftAnchor="815.0" AnchorPane.topAnchor="0.0" />
       <TextField fx:id="txtEmail" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="650.0" promptText="Digite o email" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="75.0">
          <font>
             <Font size="16.0" />
