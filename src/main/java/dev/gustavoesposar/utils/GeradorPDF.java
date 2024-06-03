@@ -1,6 +1,7 @@
 package dev.gustavoesposar.utils;
 
 import dev.gustavoesposar.database.DatabaseManager;
+import javafx.scene.control.Alert;
 
 import javax.swing.JFileChooser;
 import java.io.File;
@@ -20,7 +21,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 public class GeradorPDF {
 
-        public static void gerarPDF(String dest, String sql) {
+    public static void gerarPDF(String dest, String sql) {
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
 
@@ -99,10 +100,12 @@ public class GeradorPDF {
             document.save(dest);
             document.close();
 
-            System.out.println("PDF criado com sucesso!");
+            janelaInformativa("PDF criado com sucesso!");
 
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            janelaInformativa("Ocorreu um erro ao salvar o PDF!");
+        } catch (SQLException e) {
+            janelaInformativa("Ocorreu um erro de comunicação com o banco de dados");
         }
     }
 
@@ -131,5 +134,13 @@ public class GeradorPDF {
         }
 
         return null;
+    }
+
+    private static void janelaInformativa(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText(null); // Sem cabeçalho
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

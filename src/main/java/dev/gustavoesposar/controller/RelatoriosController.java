@@ -10,19 +10,18 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 
 public class RelatoriosController extends OpcaoDoMenu {
     private static final String OPCAO_DEFAULT = "Selecione um Relatório";
-    private static final String SQL_SELECT_OPCOES = 
-    "select\n" + //
-    "\tnome\n" + //
-    "from relatorio;";
-    private static final String SQL_SELECT_OBTER_QUERY =
-    "select\n" + //
-    "\tsqlRelatorio\n" + //
-    "from relatorio\n" + //
-    "where nome = ?;";
+    private static final String SQL_SELECT_OPCOES = "select\n" + //
+            "\tnome\n" + //
+            "from relatorio;";
+    private static final String SQL_SELECT_OBTER_QUERY = "select\n" + //
+            "\tsqlRelatorio\n" + //
+            "from relatorio\n" + //
+            "where nome = ?;";
 
     @FXML
     private ChoiceBox<String> boxRelatorios;
@@ -44,21 +43,20 @@ public class RelatoriosController extends OpcaoDoMenu {
             DatabaseManager.fecharConexao();
         } catch (SQLException e) {
             janelaDeErro("Erro ao consultar opções de relatórios.");
-            e.printStackTrace();
         }
     }
 
     @FXML
     private void emitirRelatorio() {
-        
-    try(ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT_OBTER_QUERY, boxRelatorios.getValue())) {
-        if (res.next()) {
-            String sql = res.getString("sqlRelatorio");
-            GeradorPDF.gerarPDF(GeradorPDF.selectFile(), sql);
+
+        try (ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT_OBTER_QUERY, boxRelatorios.getValue())) {
+            if (res.next()) {
+                String sql = res.getString("sqlRelatorio");
+                GeradorPDF.gerarPDF(GeradorPDF.selectFile(), sql);
+            }
+        } catch (Exception e) {
+            janelaDeErro(e.toString());
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
 
         restaurarValoresVariaveis();
     }
@@ -75,5 +73,13 @@ public class RelatoriosController extends OpcaoDoMenu {
 
     @Override
     protected void atualizarTabela() {
+    }
+
+    protected void janelaInformativa(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText(null); // Sem cabeçalho
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }
