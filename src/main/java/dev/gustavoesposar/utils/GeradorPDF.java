@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -18,9 +20,25 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 public class GeradorPDF {
 
-    public static void gerarPDF(String dest, String sql) {
+        public static void gerarPDF(String dest, String sql) {
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numColumns = metaData.getColumnCount();
+
+            // Encontre a largura máxima de cada coluna
+            float[] columnWidths = new float[numColumns];
+            List<String[]> rows = new ArrayList<>();
+            while (resultSet.next()) {
+                String[] row = new String[numColumns];
+                for (int i = 1; i <= numColumns; i++) {
+                    String cellValue = resultSet.getString(i);
+                    row[i - 1] = cellValue;
+                    columnWidths[i - 1] = Math.max(columnWidths[i - 1], cellValue.length() * 7);
+                }
+                rows.add(row);
+            }
 
             PDDocument document = new PDDocument();
             PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth()));
@@ -31,16 +49,6 @@ public class GeradorPDF {
             contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10);
             contentStream.setLeading(14.5f);
             contentStream.newLineAtOffset(25, 550);
-
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int numColumns = metaData.getColumnCount();
-
-            // Calcular a largura das colunas com base nos nomes das colunas
-            float[] columnWidths = new float[numColumns];
-            for (int i = 1; i <= numColumns; i++) {
-                columnWidths[i - 1] = metaData.getColumnName(i).length() * 7; // Ajuste o multiplicador conforme
-                                                                              // necessário
-            }
 
             // Adiciona cabeçalhos da tabela
             for (int i = 1; i <= numColumns; i++) {
@@ -55,11 +63,11 @@ public class GeradorPDF {
 
             // Adiciona dados da tabela
             int recordCount = 0;
-            while (resultSet.next()) {
-                for (int i = 1; i <= numColumns; i++) {
-                    String cellValue = resultSet.getString(i);
+            for (String[] row : rows) {
+                for (int i = 0; i < numColumns; i++) {
+                    String cellValue = row[i];
                     contentStream.showText(cellValue + " ");
-                    contentStream.newLineAtOffset(columnWidths[i - 1], 0);
+                    contentStream.newLineAtOffset(columnWidths[i], 0);
                 }
                 contentStream.newLineAtOffset(-calculateTotalWidth(columnWidths), -14.5f);
                 recordCount++;
