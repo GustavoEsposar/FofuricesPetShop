@@ -3,7 +3,6 @@ package dev.gustavoesposar.controller;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
