@@ -1,6 +1,7 @@
 package dev.gustavoesposar.controller;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -166,33 +167,58 @@ public class ProdutosController extends OpcaoDoMenu {
     private TextField txtQtdeMaxima;
 
     @FXML
-    private void adicionar(ActionEvent event) {
-        String id = "";
-        try {
-            String cat = boxCategoria.getValue();
-            String marca = boxMarca.getValue();
-            String nome = txtNome.getText();
-            BigDecimal preco = new BigDecimal(txtPreco.getText());
-            String forn = boxFornecedor.getValue();
-            String qtde = txtQtde.getText();
-            String qtdeMin = txtQtdeMinima.getText();
-            String qtdeMax = txtQtdeMaxima.getText();
-            if (btnAdd.getText().equals("Update")) {
-                DatabaseManager.executarUpdate(SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText()); //ordem invertida para simular "ACID"
-                DatabaseManager.executarUpdate(SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
-                btnAdd.setText("Adicionar");
-            } else {
-                id = Integer.toString(DatabaseManager.executarUpdateLastId(SQL_INSERT, preco, nome, cat, marca, forn));
-                DatabaseManager.executarUpdate(SQL_INSERT_ESTOQUE, id, qtde, qtdeMin, qtdeMax);
-            }
-            restaurarValoresVariaveis();
-            atualizarTabela();
-        } catch (NullPointerException | NumberFormatException e) {
-            janelaDeErro("Preencha os campos necessários corretamente!");
-        } catch (Exception e) {
-            janelaDeErro(e.toString());
+private void adicionar(ActionEvent event) {
+    String id = "";
+    Connection conn = null;
+    try {
+        String cat = boxCategoria.getValue();
+        String marca = boxMarca.getValue();
+        String nome = txtNome.getText();
+        BigDecimal preco = new BigDecimal(txtPreco.getText());
+        String forn = boxFornecedor.getValue();
+        String qtde = txtQtde.getText();
+        String qtdeMin = txtQtdeMinima.getText();
+        String qtdeMax = txtQtdeMaxima.getText();
+        
+        // Iniciar uma transação
+        DatabaseManager.iniciarTransacao();
+        conn = DatabaseManager.getConexao();
+        
+        if (btnAdd.getText().equals("Update")) {
+            DatabaseManager.executarUpdateTransacao(conn, SQL_UPDATE_ESTOQUE, qtde, qtdeMin, qtdeMax, txtId.getText());
+            DatabaseManager.executarUpdateTransacao(conn, SQL_UPDATE, preco, marca, cat, nome, forn, txtId.getText());
+            btnAdd.setText("Adicionar");
+        } else {
+            id = Integer.toString(DatabaseManager.executarUpdateLastIdTransacao(conn, SQL_INSERT, preco, nome, cat, marca, forn));
+            DatabaseManager.executarUpdateTransacao(conn, SQL_INSERT_ESTOQUE, id, qtde, qtdeMin, qtdeMax);
         }
-    }
+        
+        // Confirmar a transação
+        DatabaseManager.confirmarTransacao();
+        
+        restaurarValoresVariaveis();
+        atualizarTabela();
+    } catch (NullPointerException | NumberFormatException e) {
+        if (conn != null) {
+            try {
+                DatabaseManager.reverterTransacao();
+            } catch (SQLException se) {
+                janelaDeErro("Erro ao reverter a transação: " + se.getMessage());
+            }
+        }
+        janelaDeErro("Preencha os campos necessários corretamente!");
+    } catch (Exception e) {
+        if (conn != null) {
+            try {
+                DatabaseManager.reverterTransacao();
+            } catch (SQLException se) {
+                janelaDeErro("Erro ao reverter a transação: " + se.getMessage());
+            }
+        }
+        janelaDeErro(e.toString());
+    } 
+}
+
 
     @FXML
     private void atualizar(ActionEvent event) {

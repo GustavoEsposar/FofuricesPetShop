@@ -92,6 +92,69 @@ public class DatabaseManager {
             statement.setString(i + 1, params[i]);
         }
         ResultSet res = statement.executeQuery();
-        return res;
+        return res; 
+    }
+
+    public static void iniciarTransacao() throws SQLException {
+        Connection conn = getConexao();
+        conn.setAutoCommit(false);
+    }
+
+    public static void confirmarTransacao() throws SQLException {
+        Connection conn = getConexao();
+        conn.commit();
+        conn.setAutoCommit(true);
+        fecharConexao();
+    }
+
+    public static void reverterTransacao() throws SQLException {
+        Connection conn = getConexao();
+        conn.rollback();
+        conn.setAutoCommit(true);
+        fecharConexao();
+    }
+
+    public static boolean executarUpdateTransacao(Connection conn, String sql, String... params) throws SQLException {
+        boolean sucesso = false;
+
+        PreparedStatement statement = conn.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 1, params[i]);
+        }
+        int res = statement.executeUpdate();
+        if (res > 0)
+            sucesso = true;
+        return sucesso;
+    }
+
+    public static boolean executarUpdateTransacao(Connection conn, String sql, BigDecimal valor, String... params) throws SQLException {
+        boolean sucesso = false;
+
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setBigDecimal(1, valor);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 2, params[i]);
+        }
+        int res = statement.executeUpdate();
+
+        if (res > 0)
+            sucesso = true;
+        return sucesso;
+    }
+
+    public static int executarUpdateLastIdTransacao(Connection conn, String sql, BigDecimal valor, String... params) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.setBigDecimal(1, valor);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 2, params[i]);
+        }
+        statement.executeUpdate();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        int lastProductId = 0;
+        if (rs.next()) {
+            lastProductId = rs.getInt(1);
+        }
+        return lastProductId;
     }
 }
