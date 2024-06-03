@@ -60,6 +60,24 @@ public class DatabaseManager {
         return sucesso;
     }
 
+    public static int executarUpdateLastId(String sql, BigDecimal valor, String... params) throws SQLException {
+        PreparedStatement statement = DatabaseManager.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.setBigDecimal(1, valor);
+        for (int i = 0; i < params.length; i++) {
+            statement.setString(i + 2, params[i]);
+        }
+        statement.executeUpdate();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        int lastProductId = 0;
+        if (rs.next()) {
+            lastProductId = rs.getInt(1);
+        }
+
+        DatabaseManager.fecharConexao();
+        return lastProductId;
+    }
+
     public static ResultSet executarConsulta(String sql) throws SQLException {
         Connection conn = DatabaseManager.getConexao();
         PreparedStatement statement = conn.prepareStatement(sql);

@@ -1,0 +1,4 @@
+.table-view .column-header, .table-view .cell {
+    -fx-font-size: 13px !important;
+    -fx-alignment: CENTER;
+}
