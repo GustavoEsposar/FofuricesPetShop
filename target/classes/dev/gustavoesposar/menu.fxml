@@ -30,7 +30,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="btnEstoque" layoutX="386.0" layoutY="289.0" mnemonicParsing="false" onAction="#atualizarSceneEstoque" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Estoque" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="290.0">
+      <Button fx:id="btnRelatorio" layoutX="386.0" layoutY="289.0" mnemonicParsing="false" onAction="#atualizarSceneRelatorio" prefWidth="140.0" style="-fx-background-radius: 10px; -fx-background-color: ad764a; -fx-padding: 10px 20px;" stylesheets="@css/style.css" text="Relatórios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="290.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

@@ -56,7 +56,7 @@ public final class MenuController {
     }
 
     @FXML
-    private void atualizarSceneEstoque() {
-        //atualizarScene("estoque", "Estoque");
+    private void atualizarSceneRelatorio() {
+        //atualizarScene("relatorios", "Relatórios");
     }
 }
