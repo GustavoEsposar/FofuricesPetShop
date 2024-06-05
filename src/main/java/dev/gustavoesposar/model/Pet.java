@@ -9,16 +9,20 @@ public final class Pet {
     private String racaNome;
     private String fornecedorNome;
     private BigDecimal valor;
+    private String idade;
+    private int qtde;
 
     public Pet() {
     }
 
-    public Pet(int idPet, String especieNome, String racaNome, String fornecedorNome, BigDecimal  valor) {
+    public Pet(int idPet, String especieNome, String racaNome, String fornecedorNome, BigDecimal valor, String idade, int qtde) {
         this.idPet = idPet;
         this.especieNome = especieNome;
         this.racaNome = racaNome;
         this.fornecedorNome = fornecedorNome;
         this.valor = valor;
+        this.idade = idade;
+        this.qtde = qtde;
     }
 
     public int getIdPet() {
@@ -53,12 +57,27 @@ public final class Pet {
         this.fornecedorNome = fornecedorNome;
     }
 
-    public BigDecimal  getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal  valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
-}
 
+    public String getIdade() {
+        return idade;
+    }
+
+    public void setIdade(String idade) {
+        this.idade = idade;
+    }
+
+    public int getQtde() {
+        return qtde;
+    }
+
+    public void setQtde(int qtde) {
+        this.qtde = qtde;
+    }
+}

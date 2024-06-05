@@ -18,7 +18,7 @@
          </font>
       </Button>
       <Separator layoutX="621.0" orientation="VERTICAL" prefHeight="180.0" AnchorPane.leftAnchor="815.0" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="txtAdd" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="210.0" promptText="Digite o preço" AnchorPane.leftAnchor="470.0" AnchorPane.topAnchor="75.0">
+      <TextField fx:id="txtQtde" layoutX="290.0" layoutY="110.0" prefHeight="35.0" prefWidth="320.0" promptText="Digite a quantidade" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="125.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -53,8 +53,10 @@
             <TableColumn fx:id="colIdPet" text="ID" />
             <TableColumn fx:id="colEspecie" text="Espécie" />
             <TableColumn fx:id="colRaca" text="Raça" />
+            <TableColumn fx:id="colIdade" text="Idade" />
             <TableColumn fx:id="colValor" text="Preço" />
             <TableColumn fx:id="colFornecedor" text="Fornecedor" />
+            <TableColumn fx:id="colQtde" text="Quantidade" />
          </columns>
       </TableView>
       <Button fx:id="btnUp" layoutX="1026.0" layoutY="75.0" mnemonicParsing="false" onAction="#atualizar" prefWidth="90.0" style="-fx-background-color: ad764a;" text="Atualizar" AnchorPane.leftAnchor="1026.0">
@@ -64,5 +66,11 @@
       </Button>
       <ChoiceBox fx:id="boxRaca" layoutX="244.2" layoutY="60.0" prefHeight="35.0" prefWidth="210.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="75.0" />
       <ChoiceBox fx:id="boxFornecedor" layoutX="30.0" layoutY="125.0" prefHeight="35.0" prefWidth="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="75.0" />
+      <ChoiceBox fx:id="boxIdade" layoutX="40.0" layoutY="135.0" prefHeight="35.0" prefWidth="210.0" AnchorPane.leftAnchor="470.0" AnchorPane.topAnchor="75.0" />
+      <TextField fx:id="txtAdd" layoutX="30.0" layoutY="125.0" prefHeight="35.0" prefWidth="320.0" promptText="Digite o preço" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

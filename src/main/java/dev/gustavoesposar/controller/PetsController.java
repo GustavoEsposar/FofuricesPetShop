@@ -20,39 +20,47 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class PetsController extends OpcaoDoMenu {
-    private final String sqlInsert = "INSERT INTO pet (Raca_idRaca, Fornecedor_idFornecedor, valor) " +
-            "SELECT r.idRaca, f.idFornecedor, ? " +
-            "FROM (SELECT idRaca FROM raca WHERE nome = ?) r, " +
-            "(SELECT idFornecedor FROM fornecedor WHERE nomeFantasia = ?) f " +
-            "WHERE NOT EXISTS (SELECT 1 FROM pet WHERE Raca_idRaca = r.idRaca AND Fornecedor_idFornecedor = f.idFornecedor)";
-    private final String sqlSelect =
-            "SELECT p.idPet, e.nome AS especieNome, r.nome AS racaNome, f.nomeFantasia AS fornecedorNome, p.valor " +
+    private final String IDADE_DEFAULT = "Selecione a idade";
+    private final String SQL_INSERT = 
+    "INSERT INTO pet (Raca_idRaca, Fornecedor_idFornecedor, valor, idade, qtde)\n" + //
+    "SELECT r.idRaca, f.idFornecedor, ?, ?, ?\n" + //
+    "FROM (SELECT idRaca FROM raca WHERE nome = ?) r,\n" + //
+    "     (SELECT idFornecedor FROM fornecedor WHERE nomeFantasia = ?) f\n" + //
+    "WHERE NOT EXISTS (SELECT 1 FROM pet WHERE Raca_idRaca = r.idRaca AND Fornecedor_idFornecedor = f.idFornecedor AND idade = ?);";
+    private final String SQL_SELECT_PET = "SELECT p.idPet, e.nome AS especieNome, r.nome AS racaNome, f.nomeFantasia AS fornecedorNome, p.valor, p.qtde , p.idade "
+            +
             "FROM pet p " +
             "JOIN raca r ON p.Raca_idRaca = r.idRaca " +
             "JOIN especie e ON r.Especie_idEspecie = e.idEspecie " +
             "JOIN fornecedor f ON p.Fornecedor_idFornecedor = f.idFornecedor";
-    private final String sqlDelete = "DELETE FROM Pet WHERE idPet = ? LIMIT 1;";
-    private final String sqlUpdatePet = 
-            "UPDATE pet p " +
-            "SET " +
-            "   p.valor = ?, " +
-            "   p.Raca_idRaca = ( " +
-            "       SELECT idRaca " +
-            "       FROM raca " +
-            "       WHERE nome = ? " +
-            "   ), " +
-            "   p.Fornecedor_idFornecedor = ( " +
-            "       SELECT idFornecedor " +
-            "       FROM fornecedor " +
-            "       WHERE nomeFantasia = ? " +
-            "   ) " +
-            "WHERE p.idPet = ?";
+    private final String SQL_DELETE = "DELETE FROM Pet WHERE idPet = ? LIMIT 1;";
+    private final String SQL_UPDATE_PET = 
+    "UPDATE pet p \n" + //
+    "SET \n" + //
+    "    p.valor = ?, \n" + //
+    "    p.Raca_idRaca = ( \n" + //
+    "        SELECT idRaca \n" + //
+    "        FROM raca \n" + //
+    "        WHERE nome = ? \n" + //
+    "    ), \n" + //
+    "    p.Fornecedor_idFornecedor = ( \n" + //
+    "        SELECT idFornecedor \n" + //
+    "        FROM fornecedor \n" + //
+    "        WHERE nomeFantasia = ? \n" + //
+    "    ),\n" + //
+    "    p.idade = ?,\n" + //
+    "    p.qtde = ?\n" + //
+    "WHERE p.idPet = ?\n" + //
+    "";
 
     @FXML
     private ChoiceBox<String> boxFornecedor;
 
     @FXML
     private ChoiceBox<String> boxRaca;
+
+    @FXML
+    private ChoiceBox<String> boxIdade;
 
     @FXML
     private Button btnAdd;
@@ -79,26 +87,37 @@ public final class PetsController extends OpcaoDoMenu {
     private TableColumn<Pet, BigDecimal> colValor;
 
     @FXML
+    private TableColumn<Pet, Integer> colQtde;
+
+    @FXML
+    private TableColumn<Pet, String> colIdade;
+
+    @FXML
     private TableView<Pet> tbl;
 
     @FXML
     private TextField txtAdd;
 
     @FXML
+    private TextField txtQtde;
+
+    @FXML
     private TextField txtId;
 
     @FXML
-    private void adicionar(ActionEvent event) {        
+    private void adicionar(ActionEvent event) {
         try {
             String raca = boxRaca.getValue().substring(boxRaca.getValue().indexOf(" ") + 1);
             String fornecedor = boxFornecedor.getValue();
             BigDecimal valor = new BigDecimal(txtAdd.getText());
+            String idade = boxIdade.getValue();
+            String qtde = txtQtde.getText();
 
             if (btnAdd.getText().equals("Update")) {
                 btnAdd.setText("Adicionar");
-                DatabaseManager.executarUpdate(sqlUpdatePet, valor, raca, fornecedor, txtId.getText());
+                DatabaseManager.executarUpdate(SQL_UPDATE_PET, valor, raca, fornecedor, idade, qtde, txtId.getText());
             } else {
-                DatabaseManager.executarUpdate(sqlInsert, valor, raca, fornecedor);
+                DatabaseManager.executarUpdate(SQL_INSERT, valor, idade, qtde, raca, fornecedor, idade);
             }
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
@@ -107,7 +126,7 @@ public final class PetsController extends OpcaoDoMenu {
             janelaDeErro(e.toString());
         } finally {
             restaurarValoresVariaveis();
-        }        
+        }
     }
 
     @FXML
@@ -117,7 +136,7 @@ public final class PetsController extends OpcaoDoMenu {
         }
 
         btnAdd.setText("Update");
-        String sql = sqlSelect.replace("p.idPet,", "").concat(" WHERE idPet = " + txtId.getText());
+        String sql = SQL_SELECT_PET.replace("p.idPet,", "").concat(" WHERE idPet = " + txtId.getText());
 
         try (ResultSet resultSet = DatabaseManager.executarConsulta(sql)) {
             if (resultSet.next()) {
@@ -125,10 +144,14 @@ public final class PetsController extends OpcaoDoMenu {
                 String racaNome = resultSet.getString("racaNome");
                 String fornecedorNome = resultSet.getString("fornecedorNome");
                 String valor = resultSet.getString("valor");
+                String idade = resultSet.getString("idade");
+                String qtde = resultSet.getString("qtde");
 
                 boxRaca.setValue(especieNome + " " + racaNome);
                 boxFornecedor.setValue(fornecedorNome);
+                boxIdade.setValue(idade);
                 txtAdd.setText(valor);
+                txtQtde.setText(qtde);
             }
 
         } catch (SQLException e) {
@@ -138,10 +161,10 @@ public final class PetsController extends OpcaoDoMenu {
 
     @FXML
     private void remover(ActionEvent event) {
-        
+
         try {
             String idSelecionado = txtId.getText();
-            DatabaseManager.executarUpdate(sqlDelete, idSelecionado);
+            DatabaseManager.executarUpdate(SQL_DELETE, idSelecionado);
             atualizarTabela();
         } catch (Exception e) {
             janelaDeErro(e.toString());
@@ -154,7 +177,7 @@ public final class PetsController extends OpcaoDoMenu {
     protected void atualizarTabela() {
         ObservableList<Pet> petsList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT_PET)) {
 
             while (resultSet.next()) {
                 int idPet = resultSet.getInt("idPet");
@@ -162,8 +185,10 @@ public final class PetsController extends OpcaoDoMenu {
                 String racaNome = resultSet.getString("racaNome");
                 String fornecedorNome = resultSet.getString("fornecedorNome");
                 BigDecimal valor = resultSet.getBigDecimal("valor");
+                String idade = resultSet.getString("idade");
+                int qtde = resultSet.getInt("qtde");
 
-                Pet pet = new Pet(idPet, especieNome, racaNome, fornecedorNome, valor);
+                Pet pet = new Pet(idPet, especieNome, racaNome, fornecedorNome, valor, idade, qtde);
                 petsList.add(pet);
             }
 
@@ -177,6 +202,7 @@ public final class PetsController extends OpcaoDoMenu {
     private void atualizarTodasChoiceBox() {
         atualizarChoiceBoxRacas();
         atualizarChoiceBoxFornecedores();
+        atualizarChoiceBoxIdade();
     }
 
     private void atualizarChoiceBoxRacas() {
@@ -208,7 +234,8 @@ public final class PetsController extends OpcaoDoMenu {
     private void atualizarChoiceBoxFornecedores() {
         ObservableList<String> fornecedoresList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta("SELECT nomeFantasia FROM fornecedor ORDER BY nomeFantasia")) {
+        try (ResultSet resultSet = DatabaseManager
+                .executarConsulta("SELECT nomeFantasia FROM fornecedor ORDER BY nomeFantasia")) {
             fornecedoresList.add(0, "Fornecedor");
             while (resultSet.next()) {
                 String nomeFantasia = resultSet.getString("nomeFantasia");
@@ -225,12 +252,46 @@ public final class PetsController extends OpcaoDoMenu {
         }
     }
 
+    private void atualizarChoiceBoxIdade() {
+        ObservableList<String> idadesList = FXCollections.observableArrayList();
+
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(
+                "SELECT COLUMN_TYPE " +
+                        "FROM INFORMATION_SCHEMA.COLUMNS " +
+                        "WHERE TABLE_NAME = 'PET' " +
+                        "AND COLUMN_NAME = 'idade'")) {
+
+            if (resultSet.next()) {
+                String columnType = resultSet.getString("COLUMN_TYPE");
+
+                // Extraindo os valores do ENUM
+                String enumValues = columnType.substring(columnType.indexOf("(") + 1, columnType.indexOf(")"));
+                String[] portes = enumValues.split(",");
+
+                idadesList.add(0, IDADE_DEFAULT);
+                for (String porte : portes) {
+                    porte = porte.replace("'", "").trim();
+                    idadesList.add(porte);
+                }
+
+                Platform.runLater(() -> {
+                    boxIdade.setItems(idadesList);
+                    boxIdade.setValue(IDADE_DEFAULT);
+                });
+            }
+        } catch (SQLException e) {
+            janelaDeErro("Erro ao consultar opções de porte");
+        }
+    }
+
     @Override
     protected void restaurarValoresVariaveis() {
         boxRaca.setValue("Espécie Raça");
         boxFornecedor.setValue("Fornecedor");
         txtAdd.setText(null);
         txtId.setText(null);
+        boxIdade.setValue(IDADE_DEFAULT);
+        txtQtde.setText(null);
     }
 
     @FXML
@@ -247,14 +308,18 @@ public final class PetsController extends OpcaoDoMenu {
         colRaca.setCellValueFactory(new PropertyValueFactory<>("racaNome"));
         colFornecedor.setCellValueFactory(new PropertyValueFactory<>("fornecedorNome"));
         colValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
+        colQtde.setCellValueFactory(new PropertyValueFactory<>("qtde"));
     }
 
     private void ajustarLarguraColunas() {
-        colIdPet.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
-        colEspecie.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
-        colRaca.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
-        colValor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
-        colFornecedor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.2));
+        colIdPet.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colEspecie.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colRaca.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colValor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colFornecedor.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colIdade.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
+        colQtde.prefWidthProperty().bind(tbl.widthProperty().multiply(0.14));
     }
 
 }
