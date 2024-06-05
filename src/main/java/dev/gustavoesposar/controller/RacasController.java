@@ -20,14 +20,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class RacasController extends OpcaoDoMenu {
-    private final String sqlSelect = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
+    private final String SQL_SELECT = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
             "FROM Raca " +
             "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie ORDER BY Raca.nome";
-    private final String sqlInsert = "INSERT INTO Raca (nome, Especie_idEspecie) " +
+    private final String SQL_INSERT = "INSERT INTO Raca (nome, Especie_idEspecie) " +
             "SELECT ?, idEspecie FROM Especie " +
             "WHERE nome = ? " +
             "AND NOT EXISTS (SELECT 1 FROM Raca WHERE nome = ?)";
-    private final String sqlDelete = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
+    private final String SQL_DELETE = "DELETE FROM Raca WHERE idRaca = ? LIMIT 1;";
 
     @FXML
     private ChoiceBox<String> boxEspecies;
@@ -61,7 +61,7 @@ public final class RacasController extends OpcaoDoMenu {
         try {
             String nome = txtAdd.getText();
             String especieSelecionada = boxEspecies.getValue();
-            DatabaseManager.executarUpdate(sqlInsert, nome, especieSelecionada, nome);
+            DatabaseManager.executarUpdate(SQL_INSERT, nome, especieSelecionada, nome);
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");
@@ -75,7 +75,7 @@ public final class RacasController extends OpcaoDoMenu {
     protected void atualizarTabela() {
         ObservableList<Raca> racasList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT)) {
 
             while (resultSet.next()) {
                 int idRaca = resultSet.getInt("idRaca");
@@ -103,7 +103,7 @@ public final class RacasController extends OpcaoDoMenu {
     private void removerRaca(ActionEvent event) {
         try {
             String idRaca = txtRm.getText();
-            DatabaseManager.executarUpdate(sqlDelete, idRaca);
+            DatabaseManager.executarUpdate(SQL_DELETE, idRaca);
             atualizarEspecies();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");

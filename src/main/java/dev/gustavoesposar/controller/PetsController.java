@@ -120,12 +120,11 @@ public final class PetsController extends OpcaoDoMenu {
                 DatabaseManager.executarUpdate(SQL_INSERT, valor, idade, qtde, raca, fornecedor, idade);
             }
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
         }
     }
 
@@ -166,10 +165,9 @@ public final class PetsController extends OpcaoDoMenu {
             String idSelecionado = txtId.getText();
             DatabaseManager.executarUpdate(SQL_DELETE, idSelecionado);
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
         }
     }
 

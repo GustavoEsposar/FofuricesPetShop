@@ -17,9 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class MarcasController extends OpcaoDoMenu {
-    private final String sqlSelect = "SELECT * FROM Marca";
-    private final String sqlInsert =  "INSERT INTO Marca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Marca WHERE nome = ?);";
-    private final String sqlDelete = "DELETE FROM Marca WHERE idMarca = ? LIMIT 1;";
+    private final String SQL_SELECT = "SELECT * FROM Marca";
+    private final String SQL_INSERT =  "INSERT INTO Marca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Marca WHERE nome = ?);";
+    private final String SQL_DELETE = "DELETE FROM Marca WHERE idMarca = ? LIMIT 1;";
 
     @FXML
     private Button btnAdd;
@@ -47,7 +47,7 @@ public final class MarcasController extends OpcaoDoMenu {
 
         try {
             String nome = txtAdd.getText();
-            DatabaseManager.executarUpdate(sqlInsert, nome, nome);
+            DatabaseManager.executarUpdate(SQL_INSERT, nome, nome);
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");
@@ -62,7 +62,7 @@ public final class MarcasController extends OpcaoDoMenu {
     protected void atualizarTabela() {
         ObservableList<Marca> marcasList = FXCollections.observableArrayList();
 
-        try(ResultSet res = DatabaseManager.executarConsulta(sqlSelect)){
+        try(ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT)){
             while (res.next()) {
                 int idMarca = res.getInt("idMarca");
                 String nome = res.getString("Nome");
@@ -83,7 +83,7 @@ public final class MarcasController extends OpcaoDoMenu {
 
         try {
             String idMarca = txtRm.getText();
-            DatabaseManager.executarUpdate(sqlDelete, idMarca);
+            DatabaseManager.executarUpdate(SQL_DELETE, idMarca);
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");

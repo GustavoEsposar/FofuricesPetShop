@@ -20,15 +20,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LoginsController extends OpcaoDoMenu{
-    private final String sqlDelete = "DELETE FROM Login WHERE idLogin = ? LIMIT 1;";
-    private final String sqlSelect = "SELECT idLogin, email FROM login;";
-    private final String sqlInsert =    "INSERT INTO login (email, senha)\r\n" + //
+    private final String SQL_DELETE = "DELETE FROM Login WHERE idLogin = ? LIMIT 1;";
+    private final String SQL_SELECT = "SELECT idLogin, email FROM login;";
+    private final String SQL_INSERT =    "INSERT INTO login (email, senha)\r\n" + //
                                         "SELECT ?, ? FROM DUAL\r\n" + //
                                         "WHERE NOT EXISTS (\r\n" + //
                                         "    SELECT 1 FROM login WHERE email = ?\r\n" + //
                                         ")\r\n" + //
                                         "";
-    private final String sqlUpdate =    "UPDATE login\n" + //
+    private final String SQL_UPDATE =    "UPDATE login\n" + //
                                         "SET \n" + //
                                         "\temail = ?,\n" + //
                                         "\tsenha = ?\n" + //
@@ -73,9 +73,9 @@ public class LoginsController extends OpcaoDoMenu{
                 String senha = txtSenha.getText();
                 if (btnAdd.getText().equals("Update")) {
                     btnAdd.setText("Adicionar");
-                    DatabaseManager.executarUpdate(sqlUpdate, email, AutenticacaoSenha.gerarHash(senha), txtId.getText());
+                    DatabaseManager.executarUpdate(SQL_UPDATE, email, AutenticacaoSenha.gerarHash(senha), txtId.getText());
                 } else {
-                    DatabaseManager.executarUpdate(sqlInsert, email, AutenticacaoSenha.gerarHash(senha), email);
+                    DatabaseManager.executarUpdate(SQL_INSERT, email, AutenticacaoSenha.gerarHash(senha), email);
                     atualizarTabela();
                     restaurarValoresVariaveis();
                 }
@@ -113,12 +113,11 @@ public class LoginsController extends OpcaoDoMenu{
     private void remover(ActionEvent event) {
         try {
             String id = txtId.getText();
-            DatabaseManager.executarUpdate(sqlDelete, id);
+            DatabaseManager.executarUpdate(SQL_DELETE, id);
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
         }
     }
 
@@ -126,7 +125,7 @@ public class LoginsController extends OpcaoDoMenu{
     protected void atualizarTabela() {
         ObservableList<Login> loginsList = FXCollections.observableArrayList();
 
-        try(ResultSet res = DatabaseManager.executarConsulta(sqlSelect)) {
+        try(ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT)) {
             while (res.next()) {
                 int id = res.getInt("idLogin");
                 String email = res.getString("email");

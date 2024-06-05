@@ -16,9 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class CategoriaController extends OpcaoDoMenu {
-    private final String sqlInsert = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
-    private final String sqlSelect = "SELECT * FROM Categoria";
-    private final String sqlDelete = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
+    private final String SQL_INSERT = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
+    private final String SQL_SELECT = "SELECT * FROM Categoria";
+    private final String SQL_DELETE = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
 
     @FXML
     private Button btnAdd;
@@ -45,7 +45,7 @@ public final class CategoriaController extends OpcaoDoMenu {
     private void adicionarCategoria() {
         try {
             String nome = txtAdd.getText();
-            if (DatabaseManager.executarUpdate(sqlInsert, nome, nome)) {
+            if (DatabaseManager.executarUpdate(SQL_INSERT, nome, nome)) {
                 atualizarTabela();
             }
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public final class CategoriaController extends OpcaoDoMenu {
     protected void atualizarTabela() {
         ObservableList<Categoria> categoriasList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT)) {
 
             while (resultSet.next()) {
                 int idCategoria = resultSet.getInt("idCategoria");
@@ -80,7 +80,7 @@ public final class CategoriaController extends OpcaoDoMenu {
     private void removerCategoria() {
         try {
             String id = txtRm.getText();
-            if (DatabaseManager.executarUpdate(sqlDelete, id)) {
+            if (DatabaseManager.executarUpdate(SQL_DELETE, id)) {
                 atualizarTabela();
             }
         } catch (Exception e) {

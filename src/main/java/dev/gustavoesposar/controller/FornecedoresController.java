@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
 import dev.gustavoesposar.model.Fornecedor;
+import dev.gustavoesposar.utils.AutenticacaoEmail;
+import dev.gustavoesposar.utils.ValidadorCadastral;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,11 +19,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FornecedoresController extends OpcaoDoMenu{
-    private final String sqlDelete = "DELETE FROM Fornecedor WHERE idFornecedor = ? LIMIT 1;";
-    private final String sqlInsert = "INSERT INTO Fornecedor (nomeFantasia, razaoSocial, email, telefone, cnpj) " +
+    private final String SQL_DELETE = "DELETE FROM Fornecedor WHERE idFornecedor = ? LIMIT 1;";
+    private final String SQL_INSERT = "INSERT INTO Fornecedor (nomeFantasia, razaoSocial, email, telefone, cnpj) " +
                                     "SELECT ?, ?, ?, ?, ? " +
                                     "WHERE NOT EXISTS (SELECT 1 FROM Fornecedor WHERE cnpj = ?)";
-    private final String sqlSelect =    "select " + //
+    private final String SQL_SELECT =    "select " + //
                                         "    idFornecedor, " +
                                         "    nomeFantasia, " + //
                                         "    razaoSocial,  " + //
@@ -29,7 +31,7 @@ public class FornecedoresController extends OpcaoDoMenu{
                                         "    telefone, " + //
                                         "    cnpj" + //
                                         " from fornecedor";
-    private final String sqlUpdate =    "UPDATE fornecedor\n" + //
+    private final String SQL_UPDATE =    "UPDATE fornecedor\n" + //
                                         "SET\n" + //
                                         "\tnomeFantasia = ?,\n" + //
                                         "    razaoSocial = ?,\n" + //
@@ -92,23 +94,25 @@ public class FornecedoresController extends OpcaoDoMenu{
             String fantasia = txtNomeFantasia.getText();
             String razao = txtRazaoSocial.getText();
             String email = txtEmail.getText();
+            email = AutenticacaoEmail.verificarEmailCorreto(email);
             String telefone = txtTelefone.getText();
+            telefone = ValidadorCadastral.validarENormalizarTelefone(telefone);
             String cnpj = txtCnpj.getText();
+            cnpj = ValidadorCadastral.validarENormalizarCnpj(cnpj);
 
             if (btnAdd.getText().equals("Update")) {
                 btnAdd.setText("Adicionar");
-                DatabaseManager.executarUpdate(sqlUpdate, fantasia, razao, email, telefone, cnpj, txtId.getText());
+                DatabaseManager.executarUpdate(SQL_UPDATE, fantasia, razao, email, telefone, cnpj, txtId.getText());
             } else {
-                DatabaseManager.executarUpdate(sqlInsert, fantasia, razao, email, telefone, cnpj, cnpj);
+                DatabaseManager.executarUpdate(SQL_INSERT, fantasia, razao, email, telefone, cnpj, cnpj);
             }
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
-        }      
+        } 
     }
 
     @FXML
@@ -118,7 +122,7 @@ public class FornecedoresController extends OpcaoDoMenu{
         }
 
         btnAdd.setText("Update");
-        String sql = sqlSelect.replace("idFornecedor,", "").concat(" WHERE idFornecedor = " + txtId.getText());
+        String sql = SQL_SELECT.replace("idFornecedor,", "").concat(" WHERE idFornecedor = " + txtId.getText());
         try(ResultSet res = DatabaseManager.executarConsulta(sql)) {
             if (res.next()) {
                 String fantasia = res.getString("nomeFantasia");
@@ -141,12 +145,11 @@ public class FornecedoresController extends OpcaoDoMenu{
     @FXML
     private void remover(ActionEvent event) {
         try {
-            DatabaseManager.executarUpdate(sqlDelete, txtId.getText());
+            DatabaseManager.executarUpdate(SQL_DELETE, txtId.getText());
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
         }
     }
 
@@ -154,7 +157,7 @@ public class FornecedoresController extends OpcaoDoMenu{
     protected void atualizarTabela() {
         ObservableList<Fornecedor> fornList = FXCollections.observableArrayList();
 
-        try(ResultSet res = DatabaseManager.executarConsulta(sqlSelect)) {
+        try(ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT)) {
             while (res.next()) {
                 int id = res.getInt("idFornecedor");
                 String fantasia = res.getString("nomeFantasia");

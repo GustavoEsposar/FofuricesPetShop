@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import dev.gustavoesposar.controller.abstracts.OpcaoDoMenu;
 import dev.gustavoesposar.database.DatabaseManager;
-import dev.gustavoesposar.utils.GeradorPDF;
+import dev.gustavoesposar.utils.EmissorDeRelatorio;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,7 +52,7 @@ public class RelatoriosController extends OpcaoDoMenu {
         try (ResultSet res = DatabaseManager.executarConsulta(SQL_SELECT_OBTER_QUERY, boxRelatorios.getValue())) {
             if (res.next()) {
                 String sql = res.getString("sqlRelatorio");
-                GeradorPDF.gerarPDF(GeradorPDF.selectFile(), sql);
+                EmissorDeRelatorio.gerarPDF(EmissorDeRelatorio.selectFile(), sql);
             }
         } catch (Exception e) {
             janelaDeErro(e.toString());

@@ -19,7 +19,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
-public class GeradorPDF {
+public class EmissorDeRelatorio {
 
     public static void gerarPDF(String dest, String sql) {
 

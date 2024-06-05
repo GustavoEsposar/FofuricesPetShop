@@ -13,7 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public final class LoginController {
-    private final String sqlConsultarSenha = "SELECT senha FROM login WHERE email = ?";
+    private final String SQL_CONSULTAR_SENHA = "SELECT senha FROM login WHERE email = ?";
 
     @FXML
     private TextField txtEmail;
@@ -29,7 +29,7 @@ public final class LoginController {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
 
-        try(ResultSet res = DatabaseManager.executarConsulta(sqlConsultarSenha, email)) {
+        try(ResultSet res = DatabaseManager.executarConsulta(SQL_CONSULTAR_SENHA, email)) {
 
             if(res.next() && AutenticacaoSenha.autenticarSenha(senha, res.getString("senha"))) {
                     atualizarSceneMenu();

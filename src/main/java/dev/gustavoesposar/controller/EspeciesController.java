@@ -17,9 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class EspeciesController extends OpcaoDoMenu{
-    private final String sqlSelect = "SELECT * FROM Especie";
-    private final String sqlInsert = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
-    private final String sqlDelete = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
+    private final String SQL_SELECT = "SELECT * FROM Especie";
+    private final String SQL_INSERT = "INSERT INTO Especie (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Especie WHERE nome = ?);";
+    private final String SQL_DELETE = "DELETE FROM Especie WHERE idEspecie = ? LIMIT 1;";
 
     @FXML
     private TextField txtAddEspecie;
@@ -47,7 +47,7 @@ public final class EspeciesController extends OpcaoDoMenu{
 
         try {
             String nomeEspecie = txtAddEspecie.getText();
-            DatabaseManager.executarUpdate(sqlInsert, nomeEspecie, nomeEspecie);
+            DatabaseManager.executarUpdate(SQL_INSERT, nomeEspecie, nomeEspecie);
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");
@@ -61,7 +61,7 @@ public final class EspeciesController extends OpcaoDoMenu{
     protected void atualizarTabela() {
         ObservableList<Especie> especiesList = FXCollections.observableArrayList();
 
-        try (ResultSet resultSet = DatabaseManager.executarConsulta(sqlSelect)) {
+        try (ResultSet resultSet = DatabaseManager.executarConsulta(SQL_SELECT)) {
 
             while (resultSet.next()) {
                 int idEspecie = resultSet.getInt("idEspecie");
@@ -84,7 +84,7 @@ public final class EspeciesController extends OpcaoDoMenu{
 
         try {
             String idEspecie = txtRmEspecie.getText();
-            DatabaseManager.executarUpdate(sqlDelete, idEspecie);
+            DatabaseManager.executarUpdate(SQL_DELETE, idEspecie);
             atualizarTabela();
         } catch (NullPointerException | NumberFormatException e) {
             janelaDeErro("Preencha os campos corretamente");

@@ -253,10 +253,9 @@ private void adicionar(ActionEvent event) {
             String id = txtId.getText();
             DatabaseManager.executarUpdate(SQL_DELETE, id);
             atualizarTabela();
+            restaurarValoresVariaveis();
         } catch (Exception e) {
             janelaDeErro(e.toString());
-        } finally {
-            restaurarValoresVariaveis();
         }
     }
 
