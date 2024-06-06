@@ -2,6 +2,9 @@ package dev.gustavoesposar.controller;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import dev.gustavoesposar.App;
 import dev.gustavoesposar.database.DatabaseManager;
@@ -14,6 +17,7 @@ import javafx.scene.control.TextField;
 
 public final class LoginController {
     private final String SQL_CONSULTAR_SENHA = "SELECT senha FROM login WHERE email = ?";
+    private final String SQL_ATUALIZAR_DATA_ACESSO = "UPDATE login SET data_acesso = ? WHERE email = ?";
 
     @FXML
     private TextField txtEmail;
@@ -32,6 +36,7 @@ public final class LoginController {
         try(ResultSet res = DatabaseManager.executarConsulta(SQL_CONSULTAR_SENHA, email)) {
 
             if(res.next() && AutenticacaoSenha.autenticarSenha(senha, res.getString("senha"))) {
+                    atualizarDataAcesso(email);
                     atualizarSceneMenu();
             } else {
                 throw new IllegalArgumentException("Email ou senha incorretos");
@@ -40,6 +45,11 @@ public final class LoginController {
         } catch(Exception e) {
             janelaDeErro(e.toString());
         }
+    }
+
+    private void atualizarDataAcesso(String email) throws SQLException {
+        String dataAcesso = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        DatabaseManager.executarUpdate(SQL_ATUALIZAR_DATA_ACESSO, dataAcesso, email);
     }
 
     protected void janelaDeErro(String erro) {
