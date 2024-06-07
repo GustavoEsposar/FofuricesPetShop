@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class CategoriaController extends OpcaoDoMenu {
     private final String SQL_INSERT = "INSERT INTO categoria (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM categoria WHERE nome = ?);";
-    private final String SQL_SELECT = "SELECT * FROM Categoria";
+    private final String SQL_SELECT = "SELECT * FROM Categoria ORDER BY nome";
     private final String SQL_DELETE = "DELETE FROM Categoria WHERE idCategoria = ? LIMIT 1;";
 
     @FXML

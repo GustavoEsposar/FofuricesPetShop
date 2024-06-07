@@ -22,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public final class RacasController extends OpcaoDoMenu {
     private final String SQL_SELECT = "SELECT Raca.idRaca, Raca.nome, Especie.nome AS nomeEspecie " +
             "FROM Raca " +
-            "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie ORDER BY Raca.nome";
+            "INNER JOIN Especie ON Raca.Especie_idEspecie = Especie.idEspecie ORDER BY Especie.nome, Raca.nome";
     private final String SQL_INSERT = "INSERT INTO Raca (nome, Especie_idEspecie) " +
             "SELECT ?, idEspecie FROM Especie " +
             "WHERE nome = ? " +

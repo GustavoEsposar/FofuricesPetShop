@@ -21,7 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LoginsController extends OpcaoDoMenu{
     private final String SQL_DELETE = "DELETE FROM Login WHERE idLogin = ? LIMIT 1;";
-    private final String SQL_SELECT = "SELECT idLogin, email FROM login;";
+    private final String SQL_SELECT = "SELECT idLogin, email FROM login ORDER BY email";
     private final String SQL_INSERT =    "INSERT INTO login (email, senha)\r\n" + //
                                         "SELECT ?, ? FROM DUAL\r\n" + //
                                         "WHERE NOT EXISTS (\r\n" + //

@@ -134,8 +134,8 @@ public class FornecedoresController extends OpcaoDoMenu{
                 txtNomeFantasia.setText(fantasia);
                 txtRazaoSocial.setText(razao);
                 txtEmail.setText(email);
-                txtTelefone.setText(telefone);
-                txtCnpj.setText(cnpj);  
+                txtTelefone.setText(ValidadorCadastral.formatarTelefone(telefone));
+                txtCnpj.setText(ValidadorCadastral.formatarCnpj(cnpj));  
             }
         } catch(SQLException e) {
             janelaDeErro("Erro de comunicação com o banco de dados");
@@ -166,7 +166,7 @@ public class FornecedoresController extends OpcaoDoMenu{
                 String telefone = res.getString("telefone");
                 String cnpj = res.getString("cnpj");
     
-                Fornecedor fornecedor = new Fornecedor(id, fantasia, razao, email, telefone, cnpj);
+                Fornecedor fornecedor = new Fornecedor(id, fantasia, razao, email, ValidadorCadastral.formatarTelefone(telefone), ValidadorCadastral.formatarCnpj(cnpj));
                 fornList.add(fornecedor);
             }
         } catch(SQLException e) {

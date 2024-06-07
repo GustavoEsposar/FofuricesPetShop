@@ -9,15 +9,16 @@ module-info.class
 dev\gustavoesposar\model\Login.class
 dev\gustavoesposar\controller\LoginsController.class
 dev\gustavoesposar\controller\LoginController.class
-dev\gustavoesposar\utils\GeradorPDF.class
 dev\gustavoesposar\utils\AutenticacaoEmail.class
 dev\gustavoesposar\controller\FornecedoresController.class
 dev\gustavoesposar\controller\RacasController.class
 dev\gustavoesposar\App.class
+dev\gustavoesposar\utils\EmissorDeRelatorio.class
 dev\gustavoesposar\controller\CategoriaController.class
 dev\gustavoesposar\model\Marca.class
 dev\gustavoesposar\model\Especie.class
 dev\gustavoesposar\model\Pet.class
+dev\gustavoesposar\utils\ValidadorCadastral.class
 dev\gustavoesposar\controller\RelatoriosController.class
 dev\gustavoesposar\controller\PetsController.class
 dev\gustavoesposar\model\Categoria.class

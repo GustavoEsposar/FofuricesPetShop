@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class MarcasController extends OpcaoDoMenu {
-    private final String SQL_SELECT = "SELECT * FROM Marca";
+    private final String SQL_SELECT = "SELECT * FROM Marca ORDER BY nome";
     private final String SQL_INSERT =  "INSERT INTO Marca (nome) SELECT ? FROM dual WHERE NOT EXISTS (SELECT 1 FROM Marca WHERE nome = ?);";
     private final String SQL_DELETE = "DELETE FROM Marca WHERE idMarca = ? LIMIT 1;";
 

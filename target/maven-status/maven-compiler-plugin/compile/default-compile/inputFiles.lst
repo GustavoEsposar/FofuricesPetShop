@@ -1,5 +1,6 @@
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Fornecedor.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\database\DatabaseManager.java
+A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\utils\ValidadorCadastral.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\abstracts\OpcaoDoMenu.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\CategoriaController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\RelatoriosController.java
@@ -10,6 +11,7 @@ A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Pet.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\RacasController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\LoginController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Produto.java
+A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\utils\EmissorDeRelatorio.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\PetsController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\ProdutosController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\EspeciesController.java
@@ -23,4 +25,3 @@ A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\utils\AutenticacaoSenh
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Especie.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\controller\LoginsController.java
 A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\model\Login.java
-A:\repo\FofuricesPetShop\src\main\java\dev\gustavoesposar\utils\GeradorPDF.java
