@@ -1,4 +1,3 @@
-
 # TRABALHO FINAL P2 - Banco de Dados (Profª Sandra Bozolan)
 
 **Gustavo Barbieri Esposar**  
@@ -49,20 +48,20 @@ Pronto, agora é só testar! ╰(*°▽°*)╯  ㄟ(≧◇≦)ㄏ
 ## Apresentação
 
 ### Tema do Projeto
-![image info](readme_fig\slide1.jpg)
+![Tema do Projeto](readme_fig/slide1.jpg)
 ### Tecnologias
-![image info](./readme_fig\slide2.jpg)
+![Tecnologias](readme_fig/slide2.jpg)
 ### Análise de Domínio
-![image info](./readme_fig\slide3.jpg)
+![Análise de Domínio](readme_fig/slide3.jpg)
 ### Regras de Negócio
-![image info](./readme_fig\slide4.jpg)
+![Regras de Negócio](readme_fig/slide4.jpg)
 ### Requisitos da Aplicação
-![image info](./readme_fig\slide5.jpg)
+![Requisitos da Aplicação](readme_fig/slide5.jpg)
 ### Modelo Entidade Relacionamemto
-![image info](./readme_fig\slide6.jpg)
+![Modelo Entidade Relacionamemto](readme_fig/slide6.jpg)
 ### Arquitetura MVC
-![image info](./readme_fig\slide7.jpg)
-![image info](./readme_fig\slide8.jpg)
-![image info](./readme_fig\slide9.jpg)
-![image info](./readme_fig\slide10.jpg)
-![image info](./readme_fig\slide11.jpg)
+![Arquitetura MVC](readme_fig/slide7.jpg)
+![Arquitetura MVC](readme_fig/slide8.jpg)
+![Arquitetura MVC](readme_fig/slide9.jpg)
+![Arquitetura MVC](readme_fig/slide10.jpg)
+![Arquitetura MVC](readme_fig/slide11.jpg)
