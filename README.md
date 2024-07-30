@@ -1,4 +1,4 @@
-# TRABALHO FINAL P2 - Banco de Dados (Profª Sandra Bozolan)
+# TRABALHO FINAL P2 - Banco de Dados 
 
 **Gustavo Barbieri Esposar**  
 Email: [ra00297810@pucsp.edu.br](mailto:ra00297810@pucsp.edu.br)
