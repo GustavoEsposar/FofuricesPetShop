@@ -7,16 +7,15 @@ Email: [ra00297810@pucsp.edu.br](mailto:ra00297810@pucsp.edu.br)
 
 <!-- TOC -->
 
-- [TRABALHO FINAL P2 - Banco de Dados (Profª Sandra Bozolan)](#trabalho-final-p2---banco-de-dados-profª-sandra-bozolan)
-    - [INSTRUÇÕES SOBRE A APLICAÇÃO](#instruções-sobre-a-aplicação)
-    - [Apresentação](#apresentação)
-        - [Tema do Projeto](#tema-do-projeto)
-        - [Tecnologias](#tecnologias)
-        - [Análise de Domínio](#análise-de-domínio)
-        - [Regras de Negócio](#regras-de-negócio)
-        - [Requisitos da Aplicação](#requisitos-da-aplicação)
-        - [Modelo Entidade Relacionamemto](#modelo-entidade-relacionamemto)
-        - [Arquitetura MVC](#arquitetura-mvc)
+- [INSTRUÇÕES SOBRE A APLICAÇÃO](#instruções-sobre-a-aplicação)
+- [Apresentação](#apresentação)
+    - [Tema do Projeto](#tema-do-projeto)
+    - [Tecnologias](#tecnologias)
+    - [Análise de Domínio](#análise-de-domínio)
+    - [Regras de Negócio](#regras-de-negócio)
+    - [Requisitos da Aplicação](#requisitos-da-aplicação)
+    - [Modelo Entidade Relacionamemto](#modelo-entidade-relacionamemto)
+    - [Arquitetura MVC](#arquitetura-mvc)
 
 <!-- /TOC -->
 
@@ -28,6 +27,7 @@ Email: [ra00297810@pucsp.edu.br](mailto:ra00297810@pucsp.edu.br)
 
 1. **Carregue o Dump desejado no seu MySQL**
     - Escolha entre o Dump sem registros (estrutura) ou o Dump com registros (completo).
+    - [Fofurices Pet Shop - Dumps MySQL](https://github.com/GustavoEsposar/FofuricesPetShop_Dump)
 
 2. **Altere os dados para acessar o Banco conforme necessário**
     - **OBS.:** Usuário "root" e senha "150909" por padrão.
