@@ -49,7 +49,7 @@ Pronto, agora é só testar! ╰(*°▽°*)╯  ㄟ(≧◇≦)ㄏ
 ## Apresentação
 
 ### Tema do Projeto
-![image info](./readme_fig\slide1.jpg)
+![image info](readme_fig\slide1.jpg)
 ### Tecnologias
 ![image info](./readme_fig\slide2.jpg)
 ### Análise de Domínio
